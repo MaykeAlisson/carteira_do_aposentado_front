@@ -6,10 +6,11 @@
   "scripts": {
     "start": "webpack serve --open --mode development",   
     "build": "webpack --mode production",
+    "analyse": "node webpack.analyse.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "Mayke Alisson",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.16.0",
