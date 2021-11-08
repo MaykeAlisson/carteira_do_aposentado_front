@@ -1,1 +1,41 @@
-import App from "./App";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import {BrowserRouter} from 'react-router-dom';
+import {createTheme, responsiveFontSizes, ThemeProvider} from '@mui/material/styles';
+import Routes from './routes';
+import Home from "./pages/Home";
+import {AppProvider} from 'Contexts/contexto';
+import {LoadingProvider} from 'Contexts/loading';
+import Loading from 'Components/CustomLoading';
+import {MessageProvider} from 'Contexts/message';
+
+let theme = createTheme({
+    palette: {
+        primary: {
+            main: '#3f50b5'
+        }
+    },
+    status: {
+        danger: 'orange',
+    },
+}, ptBR);
+
+ReactDOM.render(
+    <BrowserRouter>
+    <ThemeProvider theme={theme}>
+            <LoadingProvider>
+                <Loading>
+                    <MessageProvider>
+                        <AppProvider>
+                            <Home>
+                                <Routes/>
+                            </Home>
+                        </AppProvider>
+                    </MessageProvider>
+                </Loading>
+            </LoadingProvider>
+            </ThemeProvider>
+    </BrowserRouter>
+    ,
+    document.getElementById('app')
+);

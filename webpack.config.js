@@ -1,3 +1,4 @@
+const path = require('path');
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 module.exports = {
   devtool: "source-map",
@@ -23,6 +24,13 @@ module.exports = {
     ]
   },
   resolve: {
+    alias: {
+      Contexts: path.resolve(__dirname, 'src', 'contexts'),
+      Services: path.resolve(__dirname, 'src', 'service'),
+      Components: path.resolve(__dirname, 'src', 'infra', 'components'),
+      Util: path.resolve(__dirname, 'src', 'infra', 'util'),
+      Repository: path.resolve(__dirname, 'src', 'repository')
+  },
     extensions: ['.js', '.jsx']
   },
   plugins: [
