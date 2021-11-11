@@ -28,9 +28,7 @@ ReactDOM.render(
                 <Loading>
                     <MessageProvider>
                         <AppProvider>
-                            <Home>
-                                <Routes/>
-                            </Home>
+                            <Home/>
                         </AppProvider>
                     </MessageProvider>
                 </Loading>
