@@ -1,11 +1,12 @@
 import React from "react";
+import {Box} from "@mui/material";
 
 const Page = () => {
 
     return (
-        <div style={{width: '720px', height: '540px', backgroundColor: 'red'}}>
-            <h1>Painel</h1>
-        </div>
+        <Box sx={{bgcolor: '#cfe8fc', height: '100vh'}}>
+            <span>Painel</span>
+        </Box>
     );
 }
 

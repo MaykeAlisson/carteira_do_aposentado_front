@@ -1,18 +1,6 @@
 import React, {useState} from "react";
-import {
-    AppBar,
-    Box,
-    Button, Divider, Drawer,
-    IconButton,
-    ListItem,
-    ListItemIcon, ListItemText,
-    SwipeableDrawer,
-    Toolbar,
-    Typography
-} from "@mui/material";
+import {AppBar, Box, Button, Divider, Drawer, IconButton, Toolbar, Typography} from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
-import {List} from "@mui/icons-material";
-import * as PropTypes from "prop-types";
 
 
 function InboxIcon() {
@@ -38,7 +26,9 @@ const Componente = ({onLogoutSuccess}) => {
                             color="inherit"
                             aria-label="menu"
                             sx={{mr: 2}}
-                            onClick={() => {setOpenMenu(true)}}
+                            onClick={() => {
+                                setOpenMenu(true)
+                            }}
                         >
                             <MenuIcon/>
                         </IconButton>
@@ -49,40 +39,24 @@ const Componente = ({onLogoutSuccess}) => {
                     </Toolbar>
                 </AppBar>
             </Box>
-                <Drawer
-                    sx={{
+            <Drawer
+                sx={{
+                    width: 240,
+                    flexShrink: 0,
+                    '& .MuiDrawer-paper': {
                         width: 240,
-                        flexShrink: 0,
-                        '& .MuiDrawer-paper': {
-                            width: 240,
-                            boxSizing: 'border-box',
-                        },
-                    }}
-                    anchor="left"
-                    open={openMenu}
-                    onClose={() => {setOpenMenu(false);}}
-                >
-                <List>
-                    {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                        <ListItem button key={text}>
-                            <ListItemIcon>
-                                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                            </ListItemIcon>
-                            <ListItemText primary={text} />
-                        </ListItem>
-                    ))}
-                </List>
-                <Divider />
-                <List>
-                    {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                        <ListItem button key={text}>
-                            <ListItemIcon>
-                                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                            </ListItemIcon>
-                            <ListItemText primary={text} />
-                        </ListItem>
-                    ))}
-                </List>
+                        boxSizing: 'border-box',
+                    },
+                }}
+                anchor="left"
+                open={openMenu}
+                onClose={() => {
+                    setOpenMenu(false);
+                }}
+            >
+                <Typography>CONTA</Typography>
+                <Divider/>
+                <Typography>MENUS</Typography>
             </Drawer>
         </>
     );

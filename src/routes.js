@@ -5,6 +5,6 @@ import Painel from './pages/App/componentes/Painel'
 
 export default () => (
     <Routes>
-        <Route path='/' exact element={Painel}/>
+        <Route path='/' exact element={<Painel/>}/>
     </Routes>
 );
