@@ -13,7 +13,7 @@ import {ptBR} from "@mui/material/locale";
 let theme = createTheme({
     palette: {
         primary: {
-            main: '#3f50b5'
+            main: '#363636'
         }
     },
     status: {

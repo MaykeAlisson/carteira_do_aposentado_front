@@ -18,7 +18,7 @@ const Componente = ({onLogoutSuccess}) => {
     return (
         <>
             <Box sx={{flexGrow: 1}}>
-                <AppBar position="static">
+                <AppBar color={"primary"} position="static">
                     <Toolbar>
                         <IconButton
                             size="large"
@@ -33,7 +33,7 @@ const Componente = ({onLogoutSuccess}) => {
                             <MenuIcon/>
                         </IconButton>
                         <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
-                            News
+                            Carteira do Aposentado
                         </Typography>
                         <Button color="inherit">Login</Button>
                     </Toolbar>
