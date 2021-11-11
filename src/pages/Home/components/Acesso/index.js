@@ -1,7 +1,15 @@
-import React from "react";
+import React, {useState} from "react";
 import styled from "@emotion/styled";
 
+const acoes = {
+    1: 'LOGIN',
+    2: 'CADASTRO'
+};
+
+
 const Page = () => {
+
+    const [acao, setAcao] = useState(acoes["1"])
 
     return(
         <Container>
@@ -9,7 +17,11 @@ const Page = () => {
                 <span>Msg descritiva sistema</span>
             </SessionMsg>
             <SessionAcesso>
-                <h2>Login/Cadastro</h2>
+                {
+                    acao === 'LOGIN'
+                    ? (<h2>Login</h2>)
+                        : (<h2>Cadastro</h2>)
+                }
             </SessionAcesso>
         </Container>
     );

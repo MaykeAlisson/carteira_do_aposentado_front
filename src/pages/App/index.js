@@ -14,20 +14,9 @@ const Page = () => {
             <CssBaseline/>
             <Container>
                 <Routes/>
-            </Container
-            >
-            {/*<Container>*/}
-            {/*    <Routes/>*/}
-            {/*</Container>*/}
+            </Container>
         </AppProvider>
     );
-
 };
-
-// const Container = styled.div`
-//   padding-top: 50px;
-//   background-color: red;
-//   padding-bottom: 50px;
-// `;
 
 export default Page;

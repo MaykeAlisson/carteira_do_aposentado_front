@@ -1,10 +1,8 @@
-import React, {useContext, useEffect, useReducer} from 'react';
-import {useNavigate} from "react-router-dom";
+import React, { useEffect, useReducer} from 'react';
 
 import { isValidBrowser, getQueryString } from 'Util/Document';
 import TokenRepository from 'Repository/TokenRepository';
 import Message from 'Components/CustomMsg';
-import AppContext from "Contexts/contexto";
 import { AppProvider } from 'Contexts/contexto';
 import Acesso from './components/Acesso'
 import TrocarSenha from './components/TrocarSenha'
@@ -21,9 +19,6 @@ const initialState = {
 };
 
 const Page = () => {
-
-    const navigate = useNavigate();
-    const {usuario} = useContext(AppContext);
 
     const [acao, setAcao] = useReducer((state, action) => {
         switch (action.type) {
