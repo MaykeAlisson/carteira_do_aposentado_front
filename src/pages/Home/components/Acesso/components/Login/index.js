@@ -1,8 +1,16 @@
 import React from "react";
-import {Button, Paper, TextField, Typography} from "@mui/material";
-
+import { Button, Paper, TextField, Typography } from "@mui/material";
 
 const Page = () => {
+
+    const [email, setEmail] = useState('');
+    const [senha, setSenha] = useState('');
+
+    const fazerLogin = () => {
+
+        alert(`${email}/${senha}`)
+
+    };
 
     return (
         <div style={ContainerStyle}>
@@ -13,16 +21,23 @@ const Page = () => {
                     label="email"
                     type="email"
                     sx={InputStyle}
-                    // autoComplete="current-password"
+                    onChange={e => setEmail(e.target.value)}
                 />
                 <TextField
                     id="login-senha"
                     label="senha"
                     type="password"
                     sx={InputStyle}
-                    // autoComplete="current-password"
+                    onChange={e => setSenha(e.target.value)}
                 />
-                <Button color={"primary"} variant="contained" sx={ButtonStyle}>Entrar</Button>
+                <Button
+                 color={"primary"}
+                  variant="contained"
+                   sx={ButtonStyle}
+                   onClick={() => {fazerLogin}}
+                   >
+                       Entrar
+                       </Button>
             </Paper>
         </div>
     );

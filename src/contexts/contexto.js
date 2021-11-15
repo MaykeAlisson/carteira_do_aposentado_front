@@ -5,6 +5,7 @@ import {createContext} from 'react';
 
 const AppContext = createContext({});
 
+
 export const AppProvider = ({children}) => {
 
     const [itens, setItens] = useState(new Map());
@@ -13,9 +14,15 @@ export const AppProvider = ({children}) => {
         nome: 'Mayke Alisson'
     });
 
+    const login = (email, senha) => {
+
+        alert(`${email}/${senha}`)
+    };
+
     return (
         <AppContext.Provider value={{
-            usuario
+            usuario,
+            login
         }}>
             {children}
         </AppContext.Provider>
