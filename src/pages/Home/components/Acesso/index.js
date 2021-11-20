@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import styled from "@emotion/styled";
 
 import Media from '../../../../infra/constants/mediaBreackPoint'
@@ -14,6 +14,8 @@ const acoes = {
 const Page = () => {
 
     const [acao, setAcao] = useState(acoes["1"])
+
+    useEffect(() => {}, [acao]);
 
     return(
         <Container>

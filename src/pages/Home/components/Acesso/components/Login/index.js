@@ -1,5 +1,5 @@
 import React, {useContext, useState} from "react";
-import {Button, Paper, TextField, Typography} from "@mui/material";
+import {Button, Paper,Link, TextField, Typography} from "@mui/material";
 
 import PropTypes from 'prop-types';
 
@@ -49,19 +49,20 @@ const Page = ({trocarAcao}) => {
                 >
                     Entrar
                 </Button>
+                <Link href="#" underline="none">
+                <span onClick={() => {trocarAcao()}}>Não tem conta? Cadastrar </span>
+                </Link>
             </Paper>
         </div>
     );
 };
 
 Page.propType = {
-    mercadoria: PropTypes.object,
-    itemPromocao: PropTypes.bool,
+    trocarAcao: PropTypes.func
 };
 
 Page.defaultProps = {
-    mercadoria: {},
-    itemPromocao: false,
+    trocarAcao: () => {}
 };
 
 // Styles
