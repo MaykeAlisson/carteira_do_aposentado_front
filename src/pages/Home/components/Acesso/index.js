@@ -23,8 +23,8 @@ const Page = () => {
             <SessionAcesso>
                 {
                     acao === 'LOGIN'
-                    ? (<Login/>)
-                        : (<Cadastro/>)
+                    ? (<Login trocarAcao={() => setAcao(acoes["2"])}/>)
+                        : (<Cadastro trocarAcao={() => setAcao(acoes["1"])}/>)
                 }
             </SessionAcesso>
         </Container>
