@@ -1,17 +1,39 @@
-import React from "react";
+import React, {useContext, useEffect, useState} from "react";
 
 import {Button, Link, Paper, TextField, Typography} from "@mui/material";
 import PropTypes from 'prop-types';
 
 import MessageContext from 'Contexts/message';
-import isEmpty from "../../../../../../infra/util/isEmpty";
+import isEmpty from "Util/isEmpty";
 
-const Page = ({trocarAcao}) => {
+const Page = ({trocarAcao, onAcessSuccess}) => {
+
+    const { msgAviso } = useContext(MessageContext);
+    const [nome, setNome] = useState();
+    const [email, setEmail] = useState();
+    const [senha, setSenha] = useState();
+
+    const fazerCadastro = () => {
+        if (isEmpty(nome)) return msgAviso('Nome obrigatorio!');
+        if (isEmpty(email)) return msgAviso('Email obrigatorio!');
+        if (isEmpty(senha)) return msgAviso('Senha obrigatorio!');
+        if (String(senha).length < 6) return msgAviso('Tamanho senha invalido (min 6)!');
+
+        alert("envia form");
+
+    };
 
     return(
         <div style={ContainerStyle}>
             <Paper sx={PaperStyle}>
                 <Typography variant="h4" sx={TypografiaStyle}>Cadastro</Typography>
+                <TextField
+                    id="login-nome"
+                    label="nome"
+                    type="text"
+                    sx={InputStyle}
+                    onChange={e => setNome(e.target.value)}
+                />
                 <TextField
                     id="login-email"
                     label="email"
@@ -31,7 +53,7 @@ const Page = ({trocarAcao}) => {
                     variant="contained"
                     sx={ButtonStyle}
                     onClick={() => {
-                        fazerLogin()
+                        fazerCadastro()
                     }}
                 >
                     Cadastrar
@@ -46,11 +68,13 @@ const Page = ({trocarAcao}) => {
 };
 
 Page.propType = {
-    trocarAcao: PropTypes.func
+    trocarAcao: PropTypes.func,
+    onAcessSuccess: PropTypes.func
 };
 
 Page.defaultProps = {
-    trocarAcao: () => {}
+    trocarAcao: () => {},
+    onAcessSuccess: () => {}
 };
 
 // Styles

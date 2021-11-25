@@ -4,6 +4,7 @@ import styled from "@emotion/styled";
 import Media from '../../../../infra/constants/mediaBreackPoint'
 import Login from './components/Login'
 import Cadastro from './components/Cadastro'
+import PropTypes from "prop-types";
 
 const acoes = {
     1: 'LOGIN',
@@ -11,7 +12,7 @@ const acoes = {
 };
 
 
-const Page = () => {
+const Page = ({onAcessSuccess}) => {
 
     const [acao, setAcao] = useState(acoes["1"])
 
@@ -25,13 +26,25 @@ const Page = () => {
             <SessionAcesso>
                 {
                     acao === 'LOGIN'
-                    ? (<Login trocarAcao={() => setAcao(acoes["2"])}/>)
-                        : (<Cadastro trocarAcao={() => setAcao(acoes["1"])}/>)
+                    ? (<Login trocarAcao={() => setAcao(acoes["2"])}
+                              onAcessSuccess={onAcessSuccess}
+                        />)
+                        : (<Cadastro trocarAcao={() => setAcao(acoes["1"])}
+                                     onAcessSuccess={onAcessSuccess}
+                        />)
                 }
             </SessionAcesso>
         </Container>
     );
 
+};
+
+Page.propTypes = {
+    onAcessSuccess: PropTypes.func,
+};
+
+Page.defaultProps = {
+    onAcessSuccess: () => {},
 };
 
 const Container = styled.div`

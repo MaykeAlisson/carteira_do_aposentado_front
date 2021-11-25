@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {BrowserRouter} from 'react-router-dom';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
-import Routes from './routes';
 import Home from "./pages/Home";
 import {AppProvider} from 'Contexts/contexto';
 import {LoadingProvider} from 'Contexts/loading';

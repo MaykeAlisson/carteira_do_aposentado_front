@@ -3,21 +3,43 @@ import {Button, Paper,Link, TextField, Typography} from "@mui/material";
 
 import PropTypes from 'prop-types';
 
+import { Api } from 'Services/api';
+import LoadingContext from 'Contexts/loading';
 import MessageContext from 'Contexts/message';
-import isEmpty from "../../../../../../infra/util/isEmpty";
+import isEmpty from "Util/isEmpty";
+import TokenRepository from 'Repository/TokenRepository';
+import SessionRepository from 'Repository/SessionRepository';
 
-const Page = ({trocarAcao}) => {
+const segurancaService = Api.Seguranca;
 
-    const { msgAviso } = useContext(MessageContext);
+const Page = ({trocarAcao, onAcessSuccess}) => {
+
+    const { setLoading } = useContext(LoadingContext);
+    const { msgErro, msgAviso } = useContext(MessageContext);
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
 
-    const fazerLogin = () => {
+    const fazerLogin = async () => {
 
         if (isEmpty(email)) return msgAviso('Email obrigatorio!');
         if (isEmpty(senha)) return msgAviso('Senha obrigatorio!');
 
-        alert(`${email}/${senha}`)
+        try {
+            setLoading(true);
+            const response = await segurancaService.login(email,senha);
+            if (isEmpty(response)) {
+                msgAviso('Não foi possivel concluir solicitação! Tente novamente!');
+                return;
+            }
+            TokenRepository.set(response.token);
+            SessionRepository.set(response);
+            onAcessSuccess();
+        }catch (e) {
+            console.log(e);
+            msgErro(e)
+        }finally {
+            setLoading(false);
+        }
 
     };
 
@@ -58,11 +80,13 @@ const Page = ({trocarAcao}) => {
 };
 
 Page.propType = {
-    trocarAcao: PropTypes.func
+    trocarAcao: PropTypes.func,
+    onAcessSuccess: PropTypes.func
 };
 
 Page.defaultProps = {
-    trocarAcao: () => {}
+    trocarAcao: () => {},
+    onAcessSuccess: () => {}
 };
 
 // Styles

@@ -1,4 +1,5 @@
 import React, { useEffect, useReducer} from 'react';
+import { useHistory } from 'react-router-dom';
 
 import { isValidBrowser, getQueryString } from 'Util/Document';
 import TokenRepository from 'Repository/TokenRepository';
@@ -20,6 +21,7 @@ const initialState = {
 
 const Page = () => {
 
+    const history = useHistory();
     const [acao, setAcao] = useReducer((state, action) => {
         switch (action.type) {
             case 'NAVEGADOR_INVALIDO':
@@ -62,7 +64,10 @@ const Page = () => {
             {
                 acao.acesso
                 && (
-                    <Acesso/>
+                    <Acesso onAcessSuccess={() => {
+                        history.push('/');
+                        setAcao({ type: 'APP' });
+                    }}/>
                 )
             }
 
