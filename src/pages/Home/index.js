@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { isValidBrowser, getQueryString } from 'Util/Document';
 import TokenRepository from 'Repository/TokenRepository';
+import SessionRepository from 'Repository/SessionRepository';
 import Message from 'Components/CustomMsg';
 import { AppProvider } from 'Contexts/contexto';
 import Acesso from './components/Acesso'
@@ -64,10 +65,12 @@ const Page = () => {
             {
                 acao.acesso
                 && (
-                    <Acesso onAcessSuccess={() => {
+                    <Acesso
+                        onAcessSuccess={() => {
                         navigate('/');
                         setAcao({ type: 'APP' });
-                    }}/>
+                        }}
+                    />
                 )
             }
 
@@ -83,7 +86,11 @@ const Page = () => {
                 && (
                     <AppProvider>
                         <APP
-                            onLogout={() => setAcao({ type: 'acesso' })}
+                            onLogout={() => {
+                                navigate('/');
+                                SessionRepository.clear();
+                                setAcao({ type: 'ACESSO' });
+                            }}
                         />
                     </AppProvider>
                 )
@@ -99,6 +106,5 @@ const Page = () => {
         </>
     );
 };
-
 
 export default Page;

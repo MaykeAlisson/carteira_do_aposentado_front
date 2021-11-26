@@ -62,7 +62,7 @@ const Componente = ({onLogoutSuccess}) => {
                 <AreaUsuario
                     userName={usuario.nome}
                     onLogoutSuccess={() => {
-                        onLogoutSuccess
+                        onLogoutSuccess()
                     }}
                 />
                 <Divider/>
