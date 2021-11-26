@@ -17,18 +17,9 @@ export const AppProvider = ({children}) => {
         nome: 'Mayke Alisson'
     });
 
-    const login = async (email, senha) => {
-        try {
-            const response = await segurancaService.login(email,senha);
-        }catch (e) {
-            console.log(e);
-        }
-    };
-
     return (
         <AppContext.Provider value={{
             usuario,
-            login
         }}>
             {children}
         </AppContext.Provider>

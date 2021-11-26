@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebPackPlugin = require("html-webpack-plugin");
+const NodePolyfillPlugin = require("node-polyfill-webpack-plugin")
 module.exports = {
   devtool: "source-map",
   module: {
@@ -14,7 +15,7 @@ module.exports = {
         use: [{ loader: "html-loader" }]
       },
       {
-        test: /\.css$/, 
+        test: /\.css$/,
         use: [ "style-loader", "css-loader" ]
       },
       {
@@ -37,6 +38,7 @@ module.exports = {
     new HtmlWebPackPlugin ({
       template: "./src/index.html",
       filename: "./index.html"
-    })
+    }),
+    new NodePolyfillPlugin()
   ]
 };

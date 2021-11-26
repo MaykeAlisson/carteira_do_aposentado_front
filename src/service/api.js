@@ -16,7 +16,7 @@ export const Api = {
     Usuario: {
 
         cadastro: (dados) => {
-            return http.post(urlSeguranca, dados);
+            return http.post(urlUsuario, dados);
         },
 
     },

@@ -32,7 +32,7 @@ const Page = ({trocarAcao, onAcessSuccess}) => {
                 return;
             }
             TokenRepository.set(response.token);
-            SessionRepository.set(response);
+            SessionRepository.set(JSON.stringify(response));
             onAcessSuccess();
         }catch (e) {
             console.log(e);
@@ -40,7 +40,6 @@ const Page = ({trocarAcao, onAcessSuccess}) => {
         }finally {
             setLoading(false);
         }
-
     };
 
     return (
@@ -65,9 +64,7 @@ const Page = ({trocarAcao, onAcessSuccess}) => {
                     color={"primary"}
                     variant="contained"
                     sx={ButtonStyle}
-                    onClick={() => {
-                        fazerLogin()
-                    }}
+                    onClick={() => {fazerLogin()}}
                 >
                     Entrar
                 </Button>
