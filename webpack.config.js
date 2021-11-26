@@ -3,6 +3,12 @@ const HtmlWebPackPlugin = require("html-webpack-plugin");
 const NodePolyfillPlugin = require("node-polyfill-webpack-plugin")
 module.exports = {
   devtool: "source-map",
+  entry: './src/index.js',
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'index_bundle.js',
+    publicPath: '/'
+  },
   module: {
     rules: [
       {
@@ -33,6 +39,9 @@ module.exports = {
       Repository: path.resolve(__dirname, 'src', 'repository')
   },
     extensions: ['.js', '.jsx']
+  },
+  devServer: {
+    historyApiFallback: true,
   },
   plugins: [
     new HtmlWebPackPlugin ({

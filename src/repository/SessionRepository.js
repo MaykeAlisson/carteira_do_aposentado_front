@@ -1,3 +1,5 @@
+import isEmpty from "../infra/util/isEmpty";
+
 const KEY = 'carteiraAp-session';
 
 class SessionRepository {
@@ -9,7 +11,9 @@ class SessionRepository {
 
     static get() {
 
-        return localStorage.getItem(KEY);
+        const possivelUser = localStorage.getItem(KEY);
+
+        return possivelUser === 'null' ? {} : possivelUser ;
     }
 
     static delete() {

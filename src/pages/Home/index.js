@@ -82,7 +82,9 @@ const Page = () => {
                 acao.app
                 && (
                     <AppProvider>
-                        <APP/>
+                        <APP
+                            onLogout={() => setAcao({ type: 'acesso' })}
+                        />
                     </AppProvider>
                 )
             }
