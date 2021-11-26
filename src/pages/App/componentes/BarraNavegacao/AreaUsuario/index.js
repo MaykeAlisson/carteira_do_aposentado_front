@@ -15,8 +15,8 @@ const Componente = ({userName, onLogoutSuccess}) => {
                     style={{width: 80, textAlign: 'center'}}
                 />
             </div>
-            <Typography style={{padding: 10, textAlign: "center", fontWeight: 'bold'}}>Bem
-                Vindo {userName} !</Typography>
+            <Typography style={{padding: 10, textAlign: "center", fontWeight: 'bold'}}>
+                Bem Vindo {userName} !</Typography>
             <Button
                 onClick={onLogoutSuccess}
             >

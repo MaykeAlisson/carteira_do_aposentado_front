@@ -5,6 +5,7 @@ import {AppBar, Box, Button, Divider, Drawer, IconButton, MenuItem, MenuList, To
 import MenuIcon from '@mui/icons-material/Menu';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
 import DashboardIcon from '@mui/icons-material/Dashboard';
+import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
 
 import Contexto from 'Contexts/contexto';
 import isEmpty from "Util/isEmpty";
@@ -37,7 +38,7 @@ const Componente = ({onLogoutSuccess}) => {
                             <MenuIcon/>
                         </IconButton>
                         <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
-                            Carteira do Aposentado
+                            Aposentando....<DirectionsRunIcon fontSize="small"/>
                         </Typography>
                         <Button color="inherit">{isEmpty(usuario.nome) ? `Sr(a) Rico(a)` : usuario.nome}</Button>
                     </Toolbar>
