@@ -5,10 +5,11 @@ import EditIcon from '@mui/icons-material/Edit';
 import BarChartIcon from '@mui/icons-material/BarChart';
 
 const rows = [
-    {nome: "ATivo1", quantidade: 10, total: 300, fundamentos: []},
-    {nome: "ATivo2", quantidade: 35, total: 200, fundamentos: []},
-    {nome: "ATivo3", quantidade: 12, total: 265, fundamentos: []},
-    {nome: "ATivo4", quantidade: 54, total: 985, fundamentos: []},
+    {nome: "ATivo1", tipo: 'Ação', categoria: 'By Road', porcentagem: 10, observacao: 'bla bla bla', quantidade: 10, total: 300, fundamentos: []},
+    {nome: "ATivo1", tipo: 'Ação', categoria: 'By Road', porcentagem: 10, observacao: 'bla bla bla', quantidade: 10, total: 300, fundamentos: []},
+    {nome: "ATivo1", tipo: 'Ação', categoria: 'By Road', porcentagem: 10, observacao: 'bla bla bla', quantidade: 10, total: 300, fundamentos: []},
+    {nome: "ATivo1", tipo: 'Ação', categoria: 'By Road', porcentagem: 10, observacao: 'bla bla bla', quantidade: 10, total: 300, fundamentos: []},
+    {nome: "ATivo1", tipo: 'Ação', categoria: 'By Road', porcentagem: 10, observacao: 'bla bla bla', quantidade: 10, total: 300, fundamentos: []},
 ];
 
 const Componente = () => {
@@ -19,8 +20,12 @@ const Componente = () => {
                 <TableHead>
                     <TableRow>
                         <TableCell>Ativo</TableCell>
+                        <TableCell align="right">Tipo</TableCell>
+                        <TableCell align="right">Categoria</TableCell>
+                        <TableCell align="right">Porcentagem</TableCell>
                         <TableCell align="right">Quantidade</TableCell>
                         <TableCell align="right">Total</TableCell>
+                        <TableCell align="right">Observacao</TableCell>
                         <TableCell align="right">Editar</TableCell>
                         <TableCell align="right">Fundamentos</TableCell>
                     </TableRow>
@@ -34,8 +39,12 @@ const Componente = () => {
                             <TableCell component="th" scope="row">
                                 {row.nome}
                             </TableCell>
+                            <TableCell align="right">{row.tipo}</TableCell>
+                            <TableCell align="right">{row.categoria}</TableCell>
+                            <TableCell align="right">{row.porcentagem}</TableCell>
                             <TableCell align="right">{row.quantidade}</TableCell>
                             <TableCell align="right">{row.total}</TableCell>
+                            <TableCell align="right">{row.observacao}</TableCell>
                             <TableCell align="right">
                                 <Button>
                                     <EditIcon/>
