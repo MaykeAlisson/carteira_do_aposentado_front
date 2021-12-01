@@ -40,7 +40,7 @@ const Componente = ({onLogoutSuccess}) => {
                         <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
                             Aposentando....<DirectionsRunIcon fontSize="small"/>
                         </Typography>
-                        <Button color="inherit">{isEmpty(usuario.nome) ? `Sr(a) Rico(a)` : usuario.nome}</Button>
+                        <Button color="inherit">{isEmpty(usuario) ? `Sr(a) Rico(a)` : usuario.nome}</Button>
                     </Toolbar>
                 </AppBar>
             </Box>
@@ -60,7 +60,7 @@ const Componente = ({onLogoutSuccess}) => {
                 }}
             >
                 <AreaUsuario
-                    userName={usuario.nome}
+                    userName={isEmpty(usuario) ? '' : usuario.nome}
                     onLogoutSuccess={() => {
                         onLogoutSuccess()
                     }}

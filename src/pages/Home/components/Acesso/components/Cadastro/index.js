@@ -45,7 +45,6 @@ const Page = ({trocarAcao, onAcessSuccess}) => {
             setLoading(false);
         }
 
-
     };
 
     return(

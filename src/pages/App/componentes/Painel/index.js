@@ -10,7 +10,7 @@ const Page = () => {
     return (
         <Box sx={{bgcolor: '#cfe8fc', height: '100vh'}}>
             <span>Painel</span>
-            <span>{usuario.nome}</span>
+            {/*<span>{usuario.nome}</span>*/}
         </Box>
     );
 }
