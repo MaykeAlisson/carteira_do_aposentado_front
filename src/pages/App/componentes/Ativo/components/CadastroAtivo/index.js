@@ -60,9 +60,9 @@ const Componente = ({open, onClose, onReload}) => {
     const filterConstantes = (data) => {
         const setores = data.find(obj => obj.nome === 'setor');
         setSetorValue(setores.constanteValue)
-        const categorias = data.find(obj => obj.nome === 'tipo');
+        const categorias = data.find(obj => obj.nome === 'categoria');
         setCategoriaValue(categorias.constanteValue)
-        const tipos = data.find(obj => obj.nome === 'categoria');
+        const tipos = data.find(obj => obj.nome === 'tipo');
         setTipoValue(tipos.constanteValue)
     }
 
