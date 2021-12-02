@@ -101,7 +101,6 @@ const Componente = ({open, onClose, onReload}) => {
                         id="ativo-nome"
                         label="Nome"
                         type="text"
-                        autoComplete={}
                         onChange={e => setNome(e.target.value)}
                     />
                     <TextField
