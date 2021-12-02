@@ -89,6 +89,7 @@ const Page = () => {
                             onLogout={() => {
                                 navigate('/');
                                 SessionRepository.clear();
+                                TokenRepository.clear();
                                 setAcao({ type: 'ACESSO' });
                             }}
                         />

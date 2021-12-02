@@ -41,7 +41,7 @@ const Componente = () => {
             setLoading(true);
             const response = await ativoService.findAll();
             if (isEmpty(response)) {
-                msgAviso('Não foi possivel concluir solicitação! Tente novamente!');
+                // msgAviso('Não foi possivel concluir solicitação! Tente novamente!');
                 return;
             }
             setAtivos(response)
