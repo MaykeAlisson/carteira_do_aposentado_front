@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 
 import {
     Button,
@@ -15,64 +15,43 @@ import {
 import EditIcon from '@mui/icons-material/Edit';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import AddIcon from '@mui/icons-material/Add';
+
+
+import { Api } from 'Services/api';
+import LoadingContext from 'Contexts/loading';
+import MessageContext from 'Contexts/message';
+import isEmpty from "Util/isEmpty";
 import CadastroAtivo from "./components/CadastroAtivo";
 
-const rows = [
-    {
-        nome: "ATivo1",
-        tipo: 'Ação',
-        categoria: 'By Road',
-        porcentagem: 10,
-        observacao: 'bla bla bla',
-        quantidade: 10,
-        total: 300,
-        fundamentos: []
-    },
-    {
-        nome: "ATivo1",
-        tipo: 'Ação',
-        categoria: 'By Road',
-        porcentagem: 10,
-        observacao: 'bla bla bla',
-        quantidade: 10,
-        total: 300,
-        fundamentos: []
-    },
-    {
-        nome: "ATivo1",
-        tipo: 'Ação',
-        categoria: 'By Road',
-        porcentagem: 10,
-        observacao: 'bla bla bla',
-        quantidade: 10,
-        total: 300,
-        fundamentos: []
-    },
-    {
-        nome: "ATivo1",
-        tipo: 'Ação',
-        categoria: 'By Road',
-        porcentagem: 10,
-        observacao: 'bla bla bla',
-        quantidade: 10,
-        total: 300,
-        fundamentos: []
-    },
-    {
-        nome: "ATivo1",
-        tipo: 'Ação',
-        categoria: 'By Road',
-        porcentagem: 10,
-        observacao: 'bla bla bla',
-        quantidade: 10,
-        total: 300,
-        fundamentos: []
-    },
-];
+const ativoService = Api.Ativo;
 
 const Componente = () => {
 
+    const { setLoading } = useContext(LoadingContext);
+    const { msgErro, msgAviso } = useContext(MessageContext);
     const [newAtivo, setNewAtivo] = useState(false);
+    const [ativos, setAtivos] = useState([]);
+
+    useEffect(() => {
+        buscarAtivos();
+    }, []);
+
+    const buscarAtivos = async () => {
+        try {
+            setLoading(true);
+            const response = await ativoService.findAll();
+            if (isEmpty(response)) {
+                msgAviso('Não foi possivel concluir solicitação! Tente novamente!');
+                return;
+            }
+            setAtivos(response)
+        }catch (e) {
+            console.log(e);
+            msgErro(e)
+        }finally {
+            setLoading(false);
+        }
+    };
     const onReaload = () => {
         setNewAtivo(false);
         alert('Buscar ativos novamentes');
@@ -96,9 +75,9 @@ const Componente = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {rows.map((row) => (
+                        {ativos.map((row) => (
                             <TableRow
-                                key={row.name}
+                                key={row.nome}
                                 sx={{'&:last-child td, &:last-child th': {border: 0}}}
                             >
                                 <TableCell component="th" scope="row">
@@ -107,8 +86,8 @@ const Componente = () => {
                                 <TableCell align="right">{row.tipo}</TableCell>
                                 <TableCell align="right">{row.categoria}</TableCell>
                                 <TableCell align="right">{row.porcentagem}</TableCell>
-                                <TableCell align="right">{row.quantidade}</TableCell>
-                                <TableCell align="right">{row.total}</TableCell>
+                                <TableCell align="right">{row.qtd}</TableCell>
+                                <TableCell align="right">{(row.valor * row.qtd)}</TableCell>
                                 <TableCell align="right">{row.observacao}</TableCell>
                                 <TableCell align="right">
                                     <Button>

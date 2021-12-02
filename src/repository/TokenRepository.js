@@ -18,9 +18,8 @@ class TokenRepository {
     }
 
     static isAuthenticated() {
-        return true;
-        // let token = localStorage.getItem(KEY);
-        // return token && token !== 'null' && token !== '';
+        let token = localStorage.getItem(KEY);
+        return token && token !== 'null' && token !== '';
     }
 
     static clear() {

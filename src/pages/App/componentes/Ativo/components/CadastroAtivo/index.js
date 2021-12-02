@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {
     Button,
     Dialog,
@@ -18,25 +18,15 @@ import LoadingContext from 'Contexts/loading';
 import MessageContext from 'Contexts/message';
 import isEmpty from "Util/isEmpty";
 
-const tipoValue = [{descricao: "tipo1", value: 1}, {descricao: "tipo2", value: 2}, {
-    descricao: "tipo3",
-    value: 3
-}, {descricao: "tipo4", value: 4}];
-const categoriaValue = [{descricao: "categoria1", value: 1}, {
-    descricao: "categoria2",
-    value: 2
-}, {descricao: "categoria3", value: 3}, {descricao: "categoria4", value: 4}];
-const setorValue = [{descricao: "setor1", value: 1}, {descricao: "setor2", value: 2}, {
-    descricao: "setor3",
-    value: 3
-}, {descricao: "setor4", value: 4}];
-
 const ativoService = Api.Ativo;
 
 const Componente = ({open, onClose, onReload}) => {
 
     const { setLoading } = useContext(LoadingContext);
     const { msgErro, msgAviso } = useContext(MessageContext);
+    const [tipoValue, setTipoValue] = useState([]);
+    const [categoriaValue, setCategoriaValue] = useState([]);
+    const [setorValue, setSetorValue] = useState([]);
     const [nome, setNome] = useState('');
     const [tipo, setTipo] = useState();
     const [categoria, setCategoria] = useState();
@@ -46,13 +36,43 @@ const Componente = ({open, onClose, onReload}) => {
     const [porcentagem, setPorcentagem] = useState();
     const [observacao, setObservacao] = useState();
 
+    useEffect(() => {
+        buscarConstantes();
+    }, []);
+
+    const buscarConstantes = async () => {
+        try {
+            setLoading(true);
+            const response = await ativoService.constantes();
+            if (isEmpty(response)) {
+                msgAviso('Não foi possivel concluir solicitação! Tente novamente!');
+                return;
+            }
+          filterConstantes(response)
+        }catch (e) {
+            console.log(e);
+            msgErro(e)
+        }finally {
+            setLoading(false);
+        }
+    }
+
+    const filterConstantes = (data) => {
+        const setores = data.find(obj => obj.nome === 'setor');
+        setSetorValue(setores.constanteValue)
+        const categorias = data.find(obj => obj.nome === 'tipo');
+        setCategoriaValue(categorias.constanteValue)
+        const tipos = data.find(obj => obj.nome === 'categoria');
+        setTipoValue(tipos.constanteValue)
+    }
+
     const cadastroAtivo = async () => {
         if (isEmpty(nome)) return msgAviso('Nome obrigatorio!');
+        if (isEmpty(qtd) || qtd <= 0) return msgAviso('Qtd obrigatorio!');
+        if (isEmpty(valor) || valor <= 0) return msgAviso('Valor obrigatorio!');
         if (isEmpty(tipo)) return msgAviso('Tipo obrigatorio!');
         if (isEmpty(categoria)) return msgAviso('Categoria obrigatorio!');
         if (isEmpty(setor)) return msgAviso('Setor obrigatorio!');
-        if (isEmpty(qtd) || qtd <= 0) return msgAviso('Qtd obrigatorio!');
-        if (isEmpty(valor) || valor <= 0) return msgAviso('Valor obrigatorio!');
         if (isEmpty(porcentagem) || valor <= 0) return msgAviso('Porcentagem obrigatorio!');
         if (isEmpty(observacao)) return msgAviso('Observação obrigatorio!');
 
