@@ -1,8 +1,7 @@
 import React, {useContext, useEffect, useState} from "react";
 
 import {
-    Button,
-    Dialog, DialogActions, DialogContent, DialogTitle,
+    Button, Dialog,
     Fab,
     Paper,
     Table,
@@ -10,11 +9,12 @@ import {
     TableCell,
     TableContainer,
     TableHead,
-    TableRow, TextField
+    TableRow, Typography
 } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import AddIcon from '@mui/icons-material/Add';
+import DescriptionIcon from '@mui/icons-material/Description';
 
 
 import { Api } from 'Services/api';
@@ -22,6 +22,7 @@ import LoadingContext from 'Contexts/loading';
 import MessageContext from 'Contexts/message';
 import isEmpty from "Util/isEmpty";
 import CadastroAtivo from "./components/CadastroAtivo";
+import DialogObservacao from "./components/DialogObservacao";
 
 const ativoService = Api.Ativo;
 
@@ -29,8 +30,10 @@ const Componente = () => {
 
     const { setLoading } = useContext(LoadingContext);
     const { msgErro, msgAviso } = useContext(MessageContext);
+    const [openObs, setOpenObs] = useState(false);
     const [newAtivo, setNewAtivo] = useState(false);
     const [ativos, setAtivos] = useState([]);
+    const [textObs, setTextObs] = useState('');
 
     useEffect(() => {
         buscarAtivos();
@@ -54,7 +57,7 @@ const Componente = () => {
     };
     const onReaload = () => {
         setNewAtivo(false);
-        alert('Buscar ativos novamentes');
+        buscarAtivos();
     }
 
     return (
@@ -88,7 +91,11 @@ const Componente = () => {
                                 <TableCell align="right">{row.porcentagem}</TableCell>
                                 <TableCell align="right">{row.qtd}</TableCell>
                                 <TableCell align="right">{(row.valor * row.qtd)}</TableCell>
-                                <TableCell align="right">{row.observacao}</TableCell>
+                                <TableCell align="right">
+                                    <Button onClick={() => {setOpenObs(true); setTextObs(row.observacao)}}>
+                                        <DescriptionIcon/>
+                                    </Button>
+                                </TableCell>
                                 <TableCell align="right">
                                     <Button>
                                         <EditIcon/>
@@ -115,6 +122,7 @@ const Componente = () => {
             >
                 <AddIcon/>
             </Fab>
+            <DialogObservacao openObs={openObs} onCloseObs={() => {setOpenObs(false)}} text={textObs}/>
             <CadastroAtivo open={newAtivo} onClose={() => {setNewAtivo(false)}} onReload={() => {onReaload()}}/>
         </>
     );
