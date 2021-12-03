@@ -17,10 +17,11 @@ import { Api } from 'Services/api';
 import LoadingContext from 'Contexts/loading';
 import MessageContext from 'Contexts/message';
 import isEmpty from "Util/isEmpty";
+import updateAtivo from "../UpdateAtivo";
 
 const ativoService = Api.Ativo;
 
-const Componente = ({open, onClose, onReload}) => {
+const Componente = ({open, onClose, onReload, update, ativoUpdate}) => {
 
     const { setLoading } = useContext(LoadingContext);
     const { msgErro, msgAviso } = useContext(MessageContext);
@@ -38,6 +39,7 @@ const Componente = ({open, onClose, onReload}) => {
 
     useEffect(() => {
         buscarConstantes();
+        // checkValues();
     }, []);
 
     const buscarConstantes = async () => {
@@ -57,6 +59,22 @@ const Componente = ({open, onClose, onReload}) => {
         }
     }
 
+    const checkValues = () => {
+        if (isEmpty(ativoUpdate)) return;
+        const filterTipo = tipoValue.filter(tipo => tipo.descricao ===  ativoUpdate.tipo);
+        const filterCategoria = categoriaValue.filter(cat => cat.descricao ===  ativoUpdate.categoria);
+        const filterSetor = setorValue.filter(setor => setor.descricao ===  ativoUpdate.setor);
+        setNome(ativoUpdate.nome);
+        setTipo(filterTipo[0].value);
+        setCategoria(filterCategoria[0].value);
+        setSetor(filterSetor[0].value);
+        setQtd(ativoUpdate.qtd);
+        setValor(ativoUpdate.valor);
+        setPorcentagem(ativoUpdate.porcentagem);
+        setObservacao(ativoUpdate.observacao);
+
+    }
+
     const filterConstantes = (data) => {
         const setores = data.find(obj => obj.nome === 'setor');
         setSetorValue(setores.constanteValue)
@@ -67,21 +85,46 @@ const Componente = ({open, onClose, onReload}) => {
     }
 
     const cadastroAtivo = async () => {
-        if (isEmpty(nome)) return msgAviso('Nome obrigatorio!');
-        if (isEmpty(qtd) || qtd <= 0) return msgAviso('Qtd obrigatorio!');
-        if (isEmpty(valor) || valor <= 0) return msgAviso('Valor obrigatorio!');
-        if (isEmpty(tipo)) return msgAviso('Tipo obrigatorio!');
-        if (isEmpty(categoria)) return msgAviso('Categoria obrigatorio!');
-        if (isEmpty(setor)) return msgAviso('Setor obrigatorio!');
-        if (isEmpty(porcentagem) || valor <= 0) return msgAviso('Porcentagem obrigatorio!');
-        if (isEmpty(observacao)) return msgAviso('Observação obrigatorio!');
+        if (isEmpty(nome) && isEmpty(ativoUpdate)) return msgAviso('Nome obrigatorio!');
+        if ((isEmpty(qtd) || qtd <= 0) && isEmpty(ativoUpdate)) return msgAviso('Qtd obrigatorio!');
+        if ((isEmpty(valor) || valor <= 0) && isEmpty(ativoUpdate)) return msgAviso('Valor obrigatorio!');
+        if (isEmpty(tipo) && isEmpty(ativoUpdate)) return msgAviso('Tipo obrigatorio!');
+        if (isEmpty(categoria) && isEmpty(ativoUpdate)) return msgAviso('Categoria obrigatorio!');
+        if (isEmpty(setor) && isEmpty(ativoUpdate)) return msgAviso('Setor obrigatorio!');
+        if ((isEmpty(porcentagem) || valor <= 0) && isEmpty(ativoUpdate)) return msgAviso('Porcentagem obrigatorio!');
+        if (isEmpty(observacao) && isEmpty(ativoUpdate)) return msgAviso('Observação obrigatorio!');
 
-        const ativo = {nome, tipo, categoria, setor, qtd, valor, porcentagem, observacao};
+        const filterTipo = await tipoValue.filter(tipo => tipo.descricao === ativoUpdate.tipo);
+        const filterCategoria = await categoriaValue.filter(cat => cat.descricao ===  ativoUpdate.categoria);
+        const filterSetor = await setorValue.filter(setor => setor.descricao ===  ativoUpdate.setor);
+        console.log(tipoValue)
+        console.log(categoriaValue)
+        console.log(setorValue)
+        console.log('///////////////')
+        console.log( ativoUpdate.tipo)
+        console.log( ativoUpdate.categoria)
+        console.log( ativoUpdate.setor)
+        console.log('///////////////')
+        console.log(filterTipo)
+        console.log(filterCategoria)
+        console.log(filterSetor)
+
+        const ativo = {
+            nome: isEmpty(nome) ? ativoUpdate.nome : nome,
+            tipo: isEmpty(tipo) ? filterTipo[0].value : tipo,
+            categoria: isEmpty(categoria) ? filterCategoria[0].value : categoria,
+            setor: isEmpty(setor) ? filterSetor[0].value : setor,
+            qtd: isEmpty(qtd) ? ativoUpdate.qtd : qtd,
+            valor: isEmpty(valor) ? ativoUpdate.valor : valor,
+            porcentagem: isEmpty(porcentagem) ? ativoUpdate.porcentagem : porcentagem,
+            observacao: isEmpty(observacao) ? ativoUpdate.observacao : observacao
+        };
 
         try {
             setLoading(true);
-            await ativoService.cadastro(ativo);
-            onReload();
+            // await ativoService.cadastro(ativo);
+            console.log(ativo);
+            // onReload();
         }catch (e) {
             console.log(e);
             msgErro(e)
@@ -93,7 +136,7 @@ const Componente = ({open, onClose, onReload}) => {
     return (
         <>
             <Dialog open={open}>
-                <DialogTitle>Novo Ativo</DialogTitle>
+                <DialogTitle>{isEmpty(ativoUpdate) ? 'Novo Ativo' : ativoUpdate.nome}</DialogTitle>
                 <Divider/>
                 <DialogContent >
                 <div style={RowStyle}>
@@ -101,12 +144,17 @@ const Componente = ({open, onClose, onReload}) => {
                         id="ativo-nome"
                         label="Nome"
                         type="text"
+                        value={nome}
+                        disabled={update}
                         onChange={e => setNome(e.target.value)}
+                        defaultValue={ isEmpty(ativoUpdate) ? nome : ativoUpdate.nome}
                     />
                     <TextField
                         id="ativo-qtd"
                         label="Quantidade"
                         type="number"
+                        value={qtd}
+                        defaultValue={ isEmpty(ativoUpdate) ? qtd : ativoUpdate.qtd}
                         sx={InputNumberStyle}
                         onChange={e => setQtd(e.target.value)}
                     />
@@ -116,6 +164,7 @@ const Componente = ({open, onClose, onReload}) => {
                         type="number"
                         sx={InputNumberStyle}
                         onChange={e => setValor(e.target.value)}
+                        defaultValue={ isEmpty(ativoUpdate) ? valor : ativoUpdate.valor}
                     />
                 </div>
                 <div style={RowStyle}>
@@ -128,6 +177,8 @@ const Componente = ({open, onClose, onReload}) => {
                             onChange={(event) => setTipo(event.target.value)}
                             label="tipo"
                             sx={InputSelectStyle}
+                            disabled={update}
+                            defaultValue={ isEmpty(ativoUpdate) ? tipo : ativoUpdate.tipo}
                         >
                             {
                                 tipoValue.map((value) => (
@@ -145,6 +196,7 @@ const Componente = ({open, onClose, onReload}) => {
                             onChange={(event) => setCategoria(event.target.value)}
                             label="categoria"
                             sx={InputSelectStyle}
+                            defaultValue={ isEmpty(ativoUpdate) ? categoria : ativoUpdate.categoria}
                         >
                             {
                                 categoriaValue.map((value) => (
@@ -162,6 +214,8 @@ const Componente = ({open, onClose, onReload}) => {
                             onChange={(event) => setSetor(event.target.value)}
                             label="setor"
                             sx={InputSelectStyle}
+                            disabled={update}
+                            defaultValue={ isEmpty(ativoUpdate) ? setor : ativoUpdate.setor}
                         >
                             {
                                 setorValue.map((value) => (
@@ -176,6 +230,7 @@ const Componente = ({open, onClose, onReload}) => {
                         id="ativo-porcentagem"
                         label="Porcentagem"
                         type="number"
+                        defaultValue={ isEmpty(ativoUpdate) ? porcentagem : ativoUpdate.porcentagem}
                         sx={InputNumberStyle}
                         onChange={e => setPorcentagem(e.target.value)}
                     />
@@ -183,6 +238,7 @@ const Componente = ({open, onClose, onReload}) => {
                         id="ativo-observacao"
                         label="Observacao"
                         type="text"
+                        defaultValue={ isEmpty(ativoUpdate) ? observacao : ativoUpdate.observacao}
                         onChange={e => setObservacao(e.target.value)}
                     />
                 </div>
@@ -207,12 +263,16 @@ Componente.propType = {
     open: PropTypes.bool,
     onClose: PropTypes.func,
     onReload: PropTypes.func,
+    update: PropTypes.bool,
+    ativo: PropTypes.object,
 };
 
 Componente.defaultProps = {
     open: false,
     onClose: () => {},
     onReload: () => {},
+    update: false,
+    ativo: {},
 };
 
 const RowStyle = {

@@ -23,6 +23,7 @@ import MessageContext from 'Contexts/message';
 import isEmpty from "Util/isEmpty";
 import CadastroAtivo from "./components/CadastroAtivo";
 import DialogObservacao from "./components/DialogObservacao";
+import UpdateAtivo from "./components/UpdateAtivo";
 
 const ativoService = Api.Ativo;
 
@@ -32,7 +33,9 @@ const Componente = () => {
     const { msgErro, msgAviso } = useContext(MessageContext);
     const [openObs, setOpenObs] = useState(false);
     const [newAtivo, setNewAtivo] = useState(false);
+    const [updateAtivo, setUpdateAtivo] = useState(false);
     const [ativos, setAtivos] = useState([]);
+    const [ativoUpdate, setAtivoUpdate] = useState({});
     const [textObs, setTextObs] = useState('');
 
     useEffect(() => {
@@ -97,7 +100,7 @@ const Componente = () => {
                                     </Button>
                                 </TableCell>
                                 <TableCell align="right">
-                                    <Button>
+                                    <Button onClick={()=> {setUpdateAtivo(true); setNewAtivo(true); setAtivoUpdate(row)}}>
                                         <EditIcon/>
                                     </Button>
                                 </TableCell>
@@ -123,7 +126,14 @@ const Componente = () => {
                 <AddIcon/>
             </Fab>
             <DialogObservacao openObs={openObs} onCloseObs={() => {setOpenObs(false)}} text={textObs}/>
-            <CadastroAtivo open={newAtivo} onClose={() => {setNewAtivo(false)}} onReload={() => {onReaload()}}/>
+            <CadastroAtivo
+                open={newAtivo}
+                onClose={() => {setNewAtivo(false)}}
+                onReload={() => {onReaload()}}
+                update={updateAtivo}
+                ativoUpdate={ativoUpdate}
+            />
+            {/*<UpdateAtivo open={updateAtivo} onClose={() => {setUpdateAtivo(false)}} ativo={ativoUpdate} categorias={} onReload={() => {onReaload()}}/>*/}
         </>
     );
 
