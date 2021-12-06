@@ -13,7 +13,7 @@ const Componente = () => {
     useEffect(() => {
         setAtivo({...ativoFundamento})
     }, [ativoFundamento])
-    
+
     return(
         <>
             <Button
