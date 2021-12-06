@@ -12,35 +12,39 @@ import {
     TextField
 } from "@mui/material";
 import PropTypes from "prop-types";
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
-import { Api } from 'Services/api';
+import {Api} from 'Services/api';
 import LoadingContext from 'Contexts/loading';
 import MessageContext from 'Contexts/message';
 import isEmpty from "Util/isEmpty";
-import updateAtivo from "../UpdateAtivo";
 
 const ativoService = Api.Ativo;
 
+const INITIAL_STATE = {
+    nome: '',
+    tipo: null,
+    categoria: null,
+    setor: null,
+    qtd: null,
+    valor: null,
+    porcentagem: null,
+    observacao: '',
+};
+
 const Componente = ({open, onClose, onReload, update, ativoUpdate}) => {
 
-    const { setLoading } = useContext(LoadingContext);
-    const { msgErro, msgAviso } = useContext(MessageContext);
+    const {setLoading} = useContext(LoadingContext);
+    const {msgErro, msgAviso} = useContext(MessageContext);
     const [tipoValue, setTipoValue] = useState([]);
     const [categoriaValue, setCategoriaValue] = useState([]);
     const [setorValue, setSetorValue] = useState([]);
-    const [nome, setNome] = useState('');
-    const [tipo, setTipo] = useState();
-    const [categoria, setCategoria] = useState();
-    const [setor, setSetor] = useState();
-    const [qtd, setQtd] = useState();
-    const [valor, setValor] = useState();
-    const [porcentagem, setPorcentagem] = useState();
-    const [observacao, setObservacao] = useState();
+    const [ativo, setAtivo] = useState({...INITIAL_STATE})
 
     useEffect(() => {
         buscarConstantes();
-        // checkValues();
-    }, []);
+        checkValues();
+    }, [ativoUpdate]);
 
     const buscarConstantes = async () => {
         try {
@@ -50,29 +54,27 @@ const Componente = ({open, onClose, onReload, update, ativoUpdate}) => {
                 msgAviso('Não foi possivel concluir solicitação! Tente novamente!');
                 return;
             }
-          filterConstantes(response)
-        }catch (e) {
+            filterConstantes(response)
+        } catch (e) {
             console.log(e);
             msgErro(e)
-        }finally {
+        } finally {
             setLoading(false);
         }
     }
 
-    const checkValues = () => {
-        if (isEmpty(ativoUpdate)) return;
-        const filterTipo = tipoValue.filter(tipo => tipo.descricao ===  ativoUpdate.tipo);
-        const filterCategoria = categoriaValue.filter(cat => cat.descricao ===  ativoUpdate.categoria);
-        const filterSetor = setorValue.filter(setor => setor.descricao ===  ativoUpdate.setor);
-        setNome(ativoUpdate.nome);
-        setTipo(filterTipo[0].value);
-        setCategoria(filterCategoria[0].value);
-        setSetor(filterSetor[0].value);
-        setQtd(ativoUpdate.qtd);
-        setValor(ativoUpdate.valor);
-        setPorcentagem(ativoUpdate.porcentagem);
-        setObservacao(ativoUpdate.observacao);
-
+    const checkValues = async () => {
+        if (!isEmpty(ativoUpdate)) {
+            const filterTipo = await tipoValue.filter(tipo => tipo.descricao === ativoUpdate.tipo);
+            const filterCategoria = await categoriaValue.filter(cat => cat.descricao === ativoUpdate.categoria);
+            const filterSetor = await setorValue.filter(setor => setor.descricao === ativoUpdate.setor);
+            setAtivo({
+                ...ativoUpdate,
+                tipo: filterTipo[0].value,
+                categoria: filterCategoria[0].value,
+                setor: filterSetor[0].value
+            })
+        }
     }
 
     const filterConstantes = (data) => {
@@ -84,51 +86,53 @@ const Componente = ({open, onClose, onReload, update, ativoUpdate}) => {
         setTipoValue(tipos.constanteValue)
     }
 
+    const setValue = ({target}) => setAtivo({
+        ...ativo,
+        [target.name]: target.value,
+    });
+
     const cadastroAtivo = async () => {
-        if (isEmpty(nome) && isEmpty(ativoUpdate)) return msgAviso('Nome obrigatorio!');
-        if ((isEmpty(qtd) || qtd <= 0) && isEmpty(ativoUpdate)) return msgAviso('Qtd obrigatorio!');
-        if ((isEmpty(valor) || valor <= 0) && isEmpty(ativoUpdate)) return msgAviso('Valor obrigatorio!');
-        if (isEmpty(tipo) && isEmpty(ativoUpdate)) return msgAviso('Tipo obrigatorio!');
-        if (isEmpty(categoria) && isEmpty(ativoUpdate)) return msgAviso('Categoria obrigatorio!');
-        if (isEmpty(setor) && isEmpty(ativoUpdate)) return msgAviso('Setor obrigatorio!');
-        if ((isEmpty(porcentagem) || valor <= 0) && isEmpty(ativoUpdate)) return msgAviso('Porcentagem obrigatorio!');
-        if (isEmpty(observacao) && isEmpty(ativoUpdate)) return msgAviso('Observação obrigatorio!');
+        if (isEmpty(ativo.nome)) return msgAviso('Nome obrigatorio!');
+        if (isEmpty(ativo.qtd) || ativo.qtd <= 0) return msgAviso('Qtd obrigatorio!');
+        if (isEmpty(ativo.valor) || ativo.valor <= 0) return msgAviso('Valor obrigatorio!');
+        if (isEmpty(ativo.tipo)) return msgAviso('Tipo obrigatorio!');
+        if (isEmpty(ativo.categoria)) return msgAviso('Categoria obrigatorio!');
+        if (isEmpty(ativo.setor)) return msgAviso('Setor obrigatorio!');
+        if (isEmpty(ativo.porcentagem) || ativo.porcentagem <= 0) return msgAviso('Porcentagem obrigatorio!');
+        if (isEmpty(ativo.observacao)) return msgAviso('Observação obrigatorio!');
 
-        const filterTipo = await tipoValue.filter(tipo => tipo.descricao === ativoUpdate.tipo);
-        const filterCategoria = await categoriaValue.filter(cat => cat.descricao ===  ativoUpdate.categoria);
-        const filterSetor = await setorValue.filter(setor => setor.descricao ===  ativoUpdate.setor);
-        console.log(tipoValue)
-        console.log(categoriaValue)
-        console.log(setorValue)
-        console.log('///////////////')
-        console.log( ativoUpdate.tipo)
-        console.log( ativoUpdate.categoria)
-        console.log( ativoUpdate.setor)
-        console.log('///////////////')
-        console.log(filterTipo)
-        console.log(filterCategoria)
-        console.log(filterSetor)
-
-        const ativo = {
-            nome: isEmpty(nome) ? ativoUpdate.nome : nome,
-            tipo: isEmpty(tipo) ? filterTipo[0].value : tipo,
-            categoria: isEmpty(categoria) ? filterCategoria[0].value : categoria,
-            setor: isEmpty(setor) ? filterSetor[0].value : setor,
-            qtd: isEmpty(qtd) ? ativoUpdate.qtd : qtd,
-            valor: isEmpty(valor) ? ativoUpdate.valor : valor,
-            porcentagem: isEmpty(porcentagem) ? ativoUpdate.porcentagem : porcentagem,
-            observacao: isEmpty(observacao) ? ativoUpdate.observacao : observacao
+        const dados = {
+            ...ativo,
+            qtd: Number(ativo.qtd),
+            valor: Number(ativo.valor),
+            porcentagem: Number(ativo.porcentagem)
         };
 
         try {
             setLoading(true);
-            // await ativoService.cadastro(ativo);
-            console.log(ativo);
-            // onReload();
-        }catch (e) {
+            update
+                ? await ativoService.update(dados)
+                : await ativoService.cadastro(dados)
+            setAtivo({...INITIAL_STATE})
+            onReload();
+        } catch (e) {
             console.log(e);
             msgErro(e)
-        }finally {
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const deletarAtivo = async (id) => {
+        try {
+            setLoading(true);
+            await ativoService.delete(id)
+            setAtivo({...INITIAL_STATE})
+            onReload();
+        } catch (e) {
+            console.log(e);
+            msgErro(e)
+        } finally {
             setLoading(false);
         }
     };
@@ -136,121 +140,136 @@ const Componente = ({open, onClose, onReload, update, ativoUpdate}) => {
     return (
         <>
             <Dialog open={open}>
-                <DialogTitle>{isEmpty(ativoUpdate) ? 'Novo Ativo' : ativoUpdate.nome}</DialogTitle>
+                <div style={{display: 'flex', flexDirection: 'row',}}>
+                    <DialogTitle>{isEmpty(ativo.nome) ? 'Novo Ativo' : ativo.nome}</DialogTitle>
+                    <Button style={{display: update ? '' : 'none'}} onClick={() => deletarAtivo(ativo.id)}>
+                        <DeleteOutlineIcon color={"error"}/>
+                    </Button>
+                </div>
                 <Divider/>
-                <DialogContent >
-                <div style={RowStyle}>
-                    <TextField
-                        id="ativo-nome"
-                        label="Nome"
-                        type="text"
-                        value={nome}
-                        disabled={update}
-                        onChange={e => setNome(e.target.value)}
-                        defaultValue={ isEmpty(ativoUpdate) ? nome : ativoUpdate.nome}
-                    />
-                    <TextField
-                        id="ativo-qtd"
-                        label="Quantidade"
-                        type="number"
-                        value={qtd}
-                        defaultValue={ isEmpty(ativoUpdate) ? qtd : ativoUpdate.qtd}
-                        sx={InputNumberStyle}
-                        onChange={e => setQtd(e.target.value)}
-                    />
-                    <TextField
-                        id="ativo-valor"
-                        label="Valor"
-                        type="number"
-                        sx={InputNumberStyle}
-                        onChange={e => setValor(e.target.value)}
-                        defaultValue={ isEmpty(ativoUpdate) ? valor : ativoUpdate.valor}
-                    />
-                </div>
-                <div style={RowStyle}>
-                    <FormControl variant="outlined">
-                        <InputLabel id="select-tipo">Tipo</InputLabel>
-                        <Select
-                            labelId="select-tipo"
-                            id="select-tipo"
-                            value={tipo}
-                            onChange={(event) => setTipo(event.target.value)}
-                            label="tipo"
-                            sx={InputSelectStyle}
+                <DialogContent>
+                    <div style={RowStyle}>
+                        <TextField
+                            name='nome'
+                            id="ativo-nome"
+                            label="Nome"
+                            type="text"
+                            value={ativo.nome}
                             disabled={update}
-                            defaultValue={ isEmpty(ativoUpdate) ? tipo : ativoUpdate.tipo}
-                        >
-                            {
-                                tipoValue.map((value) => (
-                                    <MenuItem value={value.value} key={value.descricao}>{value.descricao}</MenuItem>
-                                ))
-                            }
-                        </Select>
-                    </FormControl>
-                    <FormControl variant="outlined">
-                        <InputLabel id="select-categoria">Categoria</InputLabel>
-                        <Select
-                            labelId="select-categoria"
-                            id="select-categoria"
-                            value={categoria}
-                            onChange={(event) => setCategoria(event.target.value)}
-                            label="categoria"
-                            sx={InputSelectStyle}
-                            defaultValue={ isEmpty(ativoUpdate) ? categoria : ativoUpdate.categoria}
-                        >
-                            {
-                                categoriaValue.map((value) => (
-                                    <MenuItem value={value.value} key={value.descricao}>{value.descricao}</MenuItem>
-                                ))
-                            }
-                        </Select>
-                    </FormControl>
-                    <FormControl variant="outlined">
-                        <InputLabel id="select-setor">Setor</InputLabel>
-                        <Select
-                            labelId="select-setor"
-                            id="select-setor"
-                            value={setor}
-                            onChange={(event) => setSetor(event.target.value)}
-                            label="setor"
-                            sx={InputSelectStyle}
-                            disabled={update}
-                            defaultValue={ isEmpty(ativoUpdate) ? setor : ativoUpdate.setor}
-                        >
-                            {
-                                setorValue.map((value) => (
-                                    <MenuItem value={value.value} key={value.descricao}>{value.descricao}</MenuItem>
-                                ))
-                            }
-                        </Select>
-                    </FormControl>
-                </div>
-                <div style={RowStyle}>
-                    <TextField
-                        id="ativo-porcentagem"
-                        label="Porcentagem"
-                        type="number"
-                        defaultValue={ isEmpty(ativoUpdate) ? porcentagem : ativoUpdate.porcentagem}
-                        sx={InputNumberStyle}
-                        onChange={e => setPorcentagem(e.target.value)}
-                    />
-                    <TextField
-                        id="ativo-observacao"
-                        label="Observacao"
-                        type="text"
-                        defaultValue={ isEmpty(ativoUpdate) ? observacao : ativoUpdate.observacao}
-                        onChange={e => setObservacao(e.target.value)}
-                    />
-                </div>
+                            onChange={setValue}
+                            style={{display: update ? 'none' : ''}}
+                        />
+                        <TextField
+                            name='qtd'
+                            id="ativo-qtd"
+                            label="Quantidade"
+                            type="number"
+                            value={ativo.qtd}
+                            sx={InputNumberStyle}
+                            onChange={setValue}
+                        />
+                        <TextField
+                            name='valor'
+                            id="ativo-valor"
+                            label="Valor"
+                            type="number"
+                            value={ativo.valor}
+                            sx={InputNumberStyle}
+                            onChange={setValue}
+                        />
+                    </div>
+                    <div style={RowStyle}>
+                        <FormControl variant="outlined">
+                            <InputLabel id="select-tipo">Tipo</InputLabel>
+                            <Select
+                                name='tipo'
+                                labelId="select-tipo"
+                                id="select-tipo"
+                                value={ativo.tipo}
+                                onChange={setValue}
+                                label="tipo"
+                                sx={InputSelectStyle}
+                                disabled={update}
+                                style={{display: update ? 'none' : ''}}
+                            >
+                                {
+                                    tipoValue.map((value) => (
+                                        <MenuItem value={value.value} key={value.descricao}>{value.descricao}</MenuItem>
+                                    ))
+                                }
+                            </Select>
+                        </FormControl>
+                        <FormControl variant="outlined">
+                            <InputLabel id="select-categoria"
+                                        style={{display: update ? 'none' : ''}}>Categoria</InputLabel>
+                            <Select
+                                name='categoria'
+                                labelId="select-categoria"
+                                id="select-categoria"
+                                value={ativo.categoria}
+                                onChange={setValue}
+                                label="categoria"
+                                sx={InputSelectStyle}
+                            >
+                                {
+                                    categoriaValue.map((value) => (
+                                        <MenuItem value={value.value} key={value.descricao}>{value.descricao}</MenuItem>
+                                    ))
+                                }
+                            </Select>
+                        </FormControl>
+                        <FormControl variant="outlined">
+                            <InputLabel id="select-setor">Setor</InputLabel>
+                            <Select
+                                name='setor'
+                                labelId="select-setor"
+                                id="select-setor"
+                                value={ativo.setor}
+                                onChange={setValue}
+                                label="setor"
+                                sx={InputSelectStyle}
+                                disabled={update}
+                                style={{display: update ? 'none' : ''}}
+                            >
+                                {
+                                    setorValue.map((value) => (
+                                        <MenuItem value={value.value} key={value.descricao}>{value.descricao}</MenuItem>
+                                    ))
+                                }
+                            </Select>
+                        </FormControl>
+                    </div>
+                    <div style={RowStyle}>
+                        <TextField
+                            name='porcentagem'
+                            id="ativo-porcentagem"
+                            label="Porcentagem"
+                            type="number"
+                            value={ativo.porcentagem}
+                            sx={InputNumberStyle}
+                            onChange={setValue}
+                        />
+                        <TextField
+                            name='observacao'
+                            id="ativo-observacao"
+                            label="Observacao"
+                            type="text"
+                            value={ativo.observacao}
+                            onChange={setValue}
+                        />
+                    </div>
                 </DialogContent>
                 <Divider/>
                 <DialogActions>
                     <Button autoFocus onClick={() => {
+                        setAtivo({...INITIAL_STATE})
                         onClose()
                     }}>
                         Cancelar
                     </Button>
-                    <Button variant="contained" color={"primary"} onClick={() => {cadastroAtivo()}}>
+                    <Button variant="contained" color={"primary"} onClick={() => {
+                        cadastroAtivo()
+                    }}>
                         Salvar
                     </Button>
                 </DialogActions>
@@ -269,8 +288,10 @@ Componente.propType = {
 
 Componente.defaultProps = {
     open: false,
-    onClose: () => {},
-    onReload: () => {},
+    onClose: () => {
+    },
+    onReload: () => {
+    },
     update: false,
     ativo: {},
 };

@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from "react";
-
+import {Link} from "react-router-dom";
 import {
-    Button, Dialog,
+    Button,
     Fab,
     Paper,
     Table,
@@ -9,26 +9,27 @@ import {
     TableCell,
     TableContainer,
     TableHead,
-    TableRow, Typography
+    TableRow,
 } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import AddIcon from '@mui/icons-material/Add';
 import DescriptionIcon from '@mui/icons-material/Description';
 
-
 import { Api } from 'Services/api';
+import AppContext from "Contexts/contexto";
 import LoadingContext from 'Contexts/loading';
 import MessageContext from 'Contexts/message';
 import isEmpty from "Util/isEmpty";
 import CadastroAtivo from "./components/CadastroAtivo";
 import DialogObservacao from "./components/DialogObservacao";
-import UpdateAtivo from "./components/UpdateAtivo";
+
 
 const ativoService = Api.Ativo;
 
 const Componente = () => {
 
+    const {setAtivoObservable} = useContext(AppContext);
     const { setLoading } = useContext(LoadingContext);
     const { msgErro, msgAviso } = useContext(MessageContext);
     const [openObs, setOpenObs] = useState(false);
@@ -83,7 +84,7 @@ const Componente = () => {
                     <TableBody>
                         {ativos.map((row) => (
                             <TableRow
-                                key={row.nome}
+                                key={`${row.nome}-${row.criacao}`}
                                 sx={{'&:last-child td, &:last-child th': {border: 0}}}
                             >
                                 <TableCell component="th" scope="row">
@@ -105,7 +106,12 @@ const Componente = () => {
                                     </Button>
                                 </TableCell>
                                 <TableCell align="right">
-                                    <Button>
+                                    <Button
+                                        style={{ textDecoration: 'none' }}
+                                        component={Link}
+                                        to={{ pathname: '/ativo/fundamento'}}
+                                        onClick={() => {setAtivoObservable(row)}}
+                                    >
                                         <BarChartIcon/>
                                     </Button>
                                 </TableCell>
@@ -121,7 +127,10 @@ const Componente = () => {
                 bottom: 16,
                 right: 16,
             }}
-                 onClick={() => {setNewAtivo(true)}}
+                 onClick={() => {
+                     setUpdateAtivo(false);
+                     setNewAtivo(true)
+                 }}
             >
                 <AddIcon/>
             </Fab>
@@ -133,7 +142,6 @@ const Componente = () => {
                 update={updateAtivo}
                 ativoUpdate={ativoUpdate}
             />
-            {/*<UpdateAtivo open={updateAtivo} onClose={() => {setUpdateAtivo(false)}} ativo={ativoUpdate} categorias={} onReload={() => {onReaload()}}/>*/}
         </>
     );
 
