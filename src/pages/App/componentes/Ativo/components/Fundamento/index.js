@@ -1,24 +1,40 @@
 import React, {useContext, useEffect, useState} from "react";
 import {Link} from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 import Paper from '@mui/material/Paper';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import {Fab} from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 
+import isEmpty from "Util/isEmpty";
+
+import CadastroFundamento from "./components/CadastroFundamento";
+import { Api } from 'Services/api';
 import AppContext from "Contexts/contexto";
+import LoadingContext from 'Contexts/loading';
+import MessageContext from 'Contexts/message';
 
 const Componente = () => {
 
+    const navigate = useNavigate();
     const {ativoFundamento} = useContext(AppContext);
-
     const [ativo, setAtivo] = useState({...ativoFundamento});
+    const { setLoading } = useContext(LoadingContext);
+    const { msgErro, msgAviso } = useContext(MessageContext);
+    const [newFundamento, setNewFundamento] = useState(false);
 
     useEffect(() => {
+        if (isEmpty(ativoFundamento)) navigate('/ativo');
         setAtivo({...ativoFundamento})
-    }, [ativoFundamento])
-    console.log(JSON.stringify(ativo))
+    }, [ativoFundamento]);
+
+    const onReloadAtivo = (id) => {
+      alert("buscar ativo com id " + id)
+    };
 
     return (
         <>
@@ -254,6 +270,24 @@ const Componente = () => {
                     </Card>
                 </div>
             </section>
+            <Fab color="primary"
+                 aria-label="add"
+                 sx={{
+                     position: 'fixed',
+                     bottom: 16,
+                     right: 16,
+                 }}
+                 onClick={() => {
+                    setNewFundamento(true);
+                 }}
+            >
+                <AddIcon/>
+            </Fab>
+            <CadastroFundamento
+                open={newFundamento}
+                onClose={() => {setNewFundamento(false)}}
+                onReload={(id) => {onReloadAtivo(id)}}
+            />
         </>
     )
 };
