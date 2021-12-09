@@ -23,6 +23,7 @@ const Componente = () => {
     const navigate = useNavigate();
     const {ativoFundamento} = useContext(AppContext);
     const [ativo, setAtivo] = useState({...ativoFundamento});
+    const [analise, setAnalise] = useState(isEmpty(ativoFundamento) ? [] : ativoFundamento.analise);
     const { setLoading } = useContext(LoadingContext);
     const { msgErro, msgAviso } = useContext(MessageContext);
     const [newFundamento, setNewFundamento] = useState(false);
@@ -31,7 +32,7 @@ const Componente = () => {
         if (isEmpty(ativoFundamento)) navigate('/ativo');
         setAtivo({...ativoFundamento})
     }, [ativoFundamento]);
-
+    
     const onReloadAtivo = (id) => {
       alert("buscar ativo com id " + id)
     };
@@ -76,198 +77,42 @@ const Componente = () => {
                     </section>
                 </Paper>
                 <div style={FundamentosStyle}>
-                    <Card sx={{maxWidth: 320, marginBottom: 5}}>
-                        <CardContent sx={FundamentosRowStyle}>
-                            <section>
-                                <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
-                                    Word of the Day
-                                </Typography>
-                                <Typography sx={{mb: 1.5}} color="text.secondary">
-                                    adjective
-                                </Typography>
-                                <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
-                                    Word of the Day
-                                </Typography>
-                                <Typography sx={{mb: 1.5}} color="text.secondary">
-                                    adjective
-                                </Typography>
-                            </section>
-                            <section>
-                                <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
-                                    Word of the Day
-                                </Typography>
-                                <Typography sx={{mb: 1.5}} color="text.secondary">
-                                    adjective
-                                </Typography>
-                                <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
-                                    Word of the Day
-                                </Typography>
-                                <Typography sx={{mb: 1.5}} color="text.secondary">
-                                    adjective
-                                </Typography>
-                            </section>
-                        </CardContent>
-                    </Card>
-                    <Card sx={{maxWidth: 320, marginBottom: 5}}>
-                        <CardContent sx={FundamentosRowStyle}>
-                            <section>
-                                <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
-                                    Word of the Day
-                                </Typography>
-                                <Typography sx={{mb: 1.5}} color="text.secondary">
-                                    adjective
-                                </Typography>
-                                <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
-                                    Word of the Day
-                                </Typography>
-                                <Typography sx={{mb: 1.5}} color="text.secondary">
-                                    adjective
-                                </Typography>
-                            </section>
-                            <section>
-                                <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
-                                    Word of the Day
-                                </Typography>
-                                <Typography sx={{mb: 1.5}} color="text.secondary">
-                                    adjective
-                                </Typography>
-                                <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
-                                    Word of the Day
-                                </Typography>
-                                <Typography sx={{mb: 1.5}} color="text.secondary">
-                                    adjective
-                                </Typography>
-                            </section>
-                        </CardContent>
-                    </Card>
-                    <Card sx={{maxWidth: 320, marginBottom: 5}}>
-                        <CardContent sx={FundamentosRowStyle}>
-                            <section>
-                                <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
-                                    Word of the Day
-                                </Typography>
-                                <Typography sx={{mb: 1.5}} color="text.secondary">
-                                    adjective
-                                </Typography>
-                                <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
-                                    Word of the Day
-                                </Typography>
-                                <Typography sx={{mb: 1.5}} color="text.secondary">
-                                    adjective
-                                </Typography>
-                            </section>
-                            <section>
-                                <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
-                                    Word of the Day
-                                </Typography>
-                                <Typography sx={{mb: 1.5}} color="text.secondary">
-                                    adjective
-                                </Typography>
-                                <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
-                                    Word of the Day
-                                </Typography>
-                                <Typography sx={{mb: 1.5}} color="text.secondary">
-                                    adjective
-                                </Typography>
-                            </section>
-                        </CardContent>
-                    </Card>
-                    <Card sx={{maxWidth: 320, marginBottom: 5}}>
-                        <CardContent sx={FundamentosRowStyle}>
-                            <section>
-                                <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
-                                    Word of the Day
-                                </Typography>
-                                <Typography sx={{mb: 1.5}} color="text.secondary">
-                                    adjective
-                                </Typography>
-                                <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
-                                    Word of the Day
-                                </Typography>
-                                <Typography sx={{mb: 1.5}} color="text.secondary">
-                                    adjective
-                                </Typography>
-                            </section>
-                            <section>
-                                <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
-                                    Word of the Day
-                                </Typography>
-                                <Typography sx={{mb: 1.5}} color="text.secondary">
-                                    adjective
-                                </Typography>
-                                <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
-                                    Word of the Day
-                                </Typography>
-                                <Typography sx={{mb: 1.5}} color="text.secondary">
-                                    adjective
-                                </Typography>
-                            </section>
-                        </CardContent>
-                    </Card>
-                    <Card sx={{maxWidth: 320, marginBottom: 5}}>
-                        <CardContent sx={FundamentosRowStyle}>
-                            <section>
-                                <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
-                                    Word of the Day
-                                </Typography>
-                                <Typography sx={{mb: 1.5}} color="text.secondary">
-                                    adjective
-                                </Typography>
-                                <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
-                                    Word of the Day
-                                </Typography>
-                                <Typography sx={{mb: 1.5}} color="text.secondary">
-                                    adjective
-                                </Typography>
-                            </section>
-                            <section>
-                                <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
-                                    Word of the Day
-                                </Typography>
-                                <Typography sx={{mb: 1.5}} color="text.secondary">
-                                    adjective
-                                </Typography>
-                                <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
-                                    Word of the Day
-                                </Typography>
-                                <Typography sx={{mb: 1.5}} color="text.secondary">
-                                    adjective
-                                </Typography>
-                            </section>
-                        </CardContent>
-                    </Card>
-                    <Card sx={{maxWidth: 320, marginBottom: 5}}>
-                        <CardContent sx={FundamentosRowStyle}>
-                            <section>
-                                <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
-                                    Word of the Day
-                                </Typography>
-                                <Typography sx={{mb: 1.5}} color="text.secondary">
-                                    adjective
-                                </Typography>
-                                <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
-                                    Word of the Day
-                                </Typography>
-                                <Typography sx={{mb: 1.5}} color="text.secondary">
-                                    adjective
-                                </Typography>
-                            </section>
-                            <section>
-                                <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
-                                    Word of the Day
-                                </Typography>
-                                <Typography sx={{mb: 1.5}} color="text.secondary">
-                                    adjective
-                                </Typography>
-                                <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
-                                    Word of the Day
-                                </Typography>
-                                <Typography sx={{mb: 1.5}} color="text.secondary">
-                                    adjective
-                                </Typography>
-                            </section>
-                        </CardContent>
-                    </Card>
+                    {
+                        analise.map((fundamento) => (
+                            <Card key={`cd-${fundamento.mes}`} sx={{maxWidth: 320, marginBottom: 5}}>
+                                <CardContent key={fundamento.mes} sx={FundamentosRowStyle}>
+                                    <section key={`s1-${fundamento.mes}`}>
+                                        <Typography key={`${fundamento.mes}-${fundamento.mes}`} sx={{fontSize: 14}} color="text.secondary" gutterBottom>
+                                            Mes: {fundamento.mes}
+                                        </Typography>
+                                        <Typography key={`${fundamento.mes}-${fundamento.pL}`} sx={{fontSize: 14}} color="text.secondary" gutterBottom>
+                                            PL: {fundamento.pL}
+                                        </Typography>
+                                        <Typography key={`${fundamento.mes}-${fundamento.pVPA}`} sx={{fontSize: 14}} color="text.secondary" gutterBottom>
+                                            Pv/Vp: {fundamento.pVPA}
+                                        </Typography>
+                                        <Typography key={`${fundamento.mes}-${fundamento.rOE}`} sx={{fontSize: 14}} color="text.secondary" gutterBottom>
+                                            ROE: {fundamento.rOE}
+                                        </Typography>
+                                    </section>
+                                    <section key={`s2-${fundamento.mes}`}>
+                                        <Typography key={`${fundamento.mes}-${fundamento.dY}`} sx={{fontSize: 14}} color="text.secondary" gutterBottom>
+                                            DY: {fundamento.dY}
+                                        </Typography>
+                                        <Typography key={`${fundamento.mes}-${fundamento.ebitda}`} sx={{fontSize: 14}} color="text.secondary" gutterBottom>
+                                            Ebitda: {fundamento.ebitda}
+                                        </Typography>
+                                        <Typography key={`${fundamento.mes}-${fundamento.dividaBrutaPatrimonioLiquido}`} sx={{fontSize: 14}} color="text.secondary" gutterBottom>
+                                            Dv/Pl: {fundamento.dividaBrutaPatrimonioLiquido}
+                                        </Typography>
+                                        <Typography key={`${fundamento.mes}-${fundamento.notaGovernanca}`} sx={{fontSize: 14}} color="text.secondary" gutterBottom>
+                                            Nota Gov.: {fundamento.notaGovernanca}
+                                        </Typography>
+                                    </section>
+                                </CardContent>
+                            </Card>
+                        ))
+                    }
                 </div>
             </section>
             <Fab color="primary"
@@ -284,6 +129,7 @@ const Componente = () => {
                 <AddIcon/>
             </Fab>
             <CadastroFundamento
+                idAtivo={ativoFundamento.id}
                 open={newFundamento}
                 onClose={() => {setNewFundamento(false)}}
                 onReload={(id) => {onReloadAtivo(id)}}

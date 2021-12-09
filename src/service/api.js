@@ -4,6 +4,7 @@ const urlSeguranca = '/api/seguranca/v1/login';
 const urlUsuario = '/api/users/v1/user';
 const urlAtivo = '/api/ativos/v1/ativo';
 const urlAtivoConstantes = '/api/ativos/v1/constantes';
+const urlFundamento = '/api/fundamentos';
 
 export const Api = {
 
@@ -43,6 +44,14 @@ export const Api = {
 
         delete: (id) => {
             return http.delete(`${urlAtivo}/${id}`);
+        },
+
+    },
+
+    Fundamento: {
+
+        create: (id, dados) => {
+            return http.post(`${urlFundamento}/v1/${id}/fundamento`, dados);
         },
 
     },

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import PropTypes from "prop-types";
 import {
     Button, Dialog, DialogActions,
@@ -6,7 +6,13 @@ import {
     DialogTitle,
     Divider, TextField,
 } from "@mui/material";
+
 import isEmpty from "Util/isEmpty";
+import LoadingContext from 'Contexts/loading';
+import MessageContext from 'Contexts/message';
+import {Api} from 'Services/api';
+
+const fundamentoService = Api.Fundamento;
 
 const INITIAL_STATE = {
     pL: null,
@@ -20,6 +26,8 @@ const INITIAL_STATE = {
 
 const Componente = ({idAtivo, open, onClose, onReload}) => {
 
+    const {setLoading} = useContext(LoadingContext);
+    const {msgErro, msgAviso} = useContext(MessageContext);
     const [fundamento, setFundamento] = useState({...INITIAL_STATE})
 
     const setValue = ({target}) => setFundamento({
@@ -27,7 +35,7 @@ const Componente = ({idAtivo, open, onClose, onReload}) => {
         [target.name]: target.value,
     });
 
-    const cadastroFundamento = () => {
+    const cadastroFundamento = async () => {
         if (isEmpty(fundamento.pL)) return msgAviso('PL obrigatorio!');
         if (isEmpty(fundamento.pVPA)) return msgAviso('PVPA obrigatorio!');
         if (isEmpty(fundamento.dY)) return msgAviso('DY obrigatorio!');
@@ -35,7 +43,6 @@ const Componente = ({idAtivo, open, onClose, onReload}) => {
         if (isEmpty(fundamento.ebitda)) return msgAviso('Ebitda obrigatorio!');
         if (isEmpty(fundamento.dvPL) ) return msgAviso('Dv/Pl obrigatorio!');
         if (isEmpty(fundamento.notaGov) || fundamento.notaGov < 0) return msgAviso('Nota Governaça obrigatorio!');
-
 
         const dados = {
             pL: Number(fundamento.pL),
@@ -49,14 +56,12 @@ const Componente = ({idAtivo, open, onClose, onReload}) => {
 
         try {
             setLoading(true);
-            update
-                ? await ativoService.update(dados)
-                : await ativoService.cadastro(dados)
-            setAtivo({...INITIAL_STATE})
-            onReload();
+            await fundamentoService.create(idAtivo, dados);
+            setFundamento({...INITIAL_STATE});
+            onReload(idAtivo);
         } catch (e) {
             console.log(e);
-            msgErro(e)
+            msgErro(e);
         } finally {
             setLoading(false);
         }
