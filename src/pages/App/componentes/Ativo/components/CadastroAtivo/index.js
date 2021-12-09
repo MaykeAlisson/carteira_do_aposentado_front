@@ -4,7 +4,8 @@ import {
     Dialog,
     DialogActions,
     DialogContent,
-    DialogTitle, Divider,
+    DialogTitle,
+    Divider,
     FormControl,
     InputLabel,
     MenuItem,
@@ -23,12 +24,12 @@ const ativoService = Api.Ativo;
 
 const INITIAL_STATE = {
     nome: '',
-    tipo: null,
-    categoria: null,
-    setor: null,
-    qtd: null,
-    valor: null,
-    porcentagem: null,
+    tipo: undefined,
+    categoria: undefined,
+    setor: undefined,
+    qtd: undefined,
+    valor: undefined,
+    porcentagem: undefined,
     observacao: '',
 };
 
@@ -252,10 +253,13 @@ const Componente = ({open, onClose, onReload, update, ativoUpdate}) => {
                         <TextField
                             name='observacao'
                             id="ativo-observacao"
-                            label="Observacao"
+                            label="Porque Investi?"
                             type="text"
                             value={ativo.observacao}
                             onChange={setValue}
+                            inputProps={{
+                                maxLength: 70,
+                            }}
                         />
                     </div>
                 </DialogContent>

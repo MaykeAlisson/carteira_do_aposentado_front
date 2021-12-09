@@ -1,11 +1,6 @@
 import React, {useContext, useState} from "react";
 import PropTypes from "prop-types";
-import {
-    Button, Dialog, DialogActions,
-    DialogContent,
-    DialogTitle,
-    Divider, TextField,
-} from "@mui/material";
+import {Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, TextField,} from "@mui/material";
 
 import isEmpty from "Util/isEmpty";
 import LoadingContext from 'Contexts/loading';
@@ -15,13 +10,13 @@ import {Api} from 'Services/api';
 const fundamentoService = Api.Fundamento;
 
 const INITIAL_STATE = {
-    pL: null,
-    pVPA: null,
-    dY: null,
-    rOE: null,
-    ebitda: null,
-    dvPL: null,
-    notaGov: null,
+    pL: undefined,
+    pVPA: undefined,
+    dY: undefined,
+    rOE: undefined,
+    ebitda: undefined,
+    dvPL: undefined,
+    notaGov: undefined,
 };
 
 const Componente = ({idAtivo, open, onClose, onReload}) => {
@@ -39,9 +34,9 @@ const Componente = ({idAtivo, open, onClose, onReload}) => {
         if (isEmpty(fundamento.pL)) return msgAviso('PL obrigatorio!');
         if (isEmpty(fundamento.pVPA)) return msgAviso('PVPA obrigatorio!');
         if (isEmpty(fundamento.dY)) return msgAviso('DY obrigatorio!');
-        if (isEmpty(fundamento.rOE) ) return msgAviso('Roe obrigatorio!');
+        if (isEmpty(fundamento.rOE)) return msgAviso('Roe obrigatorio!');
         if (isEmpty(fundamento.ebitda)) return msgAviso('Ebitda obrigatorio!');
-        if (isEmpty(fundamento.dvPL) ) return msgAviso('Dv/Pl obrigatorio!');
+        if (isEmpty(fundamento.dvPL)) return msgAviso('Dv/Pl obrigatorio!');
         if (isEmpty(fundamento.notaGov) || fundamento.notaGov < 0) return msgAviso('Nota Governaça obrigatorio!');
 
         const dados = {
@@ -67,7 +62,7 @@ const Componente = ({idAtivo, open, onClose, onReload}) => {
         }
     }
 
-    return(
+    return (
         <>
             <Dialog open={open}>
                 <div style={{display: 'flex', flexDirection: 'row',}}>
@@ -76,65 +71,65 @@ const Componente = ({idAtivo, open, onClose, onReload}) => {
                 <Divider/>
                 <DialogContent>
                     <div style={RowStyle}>
-                    <div>
-                        <TextField
-                            name='pL'
-                            label="PL"
-                            type="number"
-                            value={fundamento.pL}
-                            sx={InputNumberStyle}
-                            onChange={setValue}
-                        />
-                        <TextField
-                            name='pVPA'
-                            label="PVPA"
-                            type="number"
-                            sx={InputNumberStyle}
-                            value={fundamento.pVPA}
-                            onChange={setValue}
-                        />
-                        <TextField
-                            name='dY'
-                            label="DY"
-                            type="number"
-                            sx={InputNumberStyle}
-                            value={fundamento.dY}
-                            onChange={setValue}
-                        />
-                        <TextField
-                            name='rOE'
-                            label="ROE"
-                            type="number"
-                            sx={InputNumberStyle}
-                            value={fundamento.rOE}
-                            onChange={setValue}
-                        />
-                    </div>
-                    <div>
-                        <TextField
-                            name='ebitda'
-                            label="Ebitda"
-                            type="number"
-                            sx={InputNumberStyle}
-                            value={fundamento.ebitda}
-                            onChange={setValue}
-                        />
-                        <TextField
-                            name='dvPL'
-                            label="Dv/Pl"
-                            type="number"
-                            sx={InputNumberStyle}
-                            value={fundamento.dvPL}
-                            onChange={setValue}
-                        />
-                        <TextField
-                            name='notaGov'
-                            label="Nota Governança"
-                            type="number"
-                            value={fundamento.notaGov}
-                            onChange={setValue}
-                        />
-                    </div>
+                        <div>
+                            <TextField
+                                name='pL'
+                                label="PL"
+                                type="number"
+                                value={fundamento.pL}
+                                sx={InputNumberStyle}
+                                onChange={setValue}
+                            />
+                            <TextField
+                                name='pVPA'
+                                label="PVPA"
+                                type="number"
+                                sx={InputNumberStyle}
+                                value={fundamento.pVPA}
+                                onChange={setValue}
+                            />
+                            <TextField
+                                name='dY'
+                                label="DY"
+                                type="number"
+                                sx={InputNumberStyle}
+                                value={fundamento.dY}
+                                onChange={setValue}
+                            />
+                            <TextField
+                                name='rOE'
+                                label="ROE"
+                                type="number"
+                                sx={InputNumberStyle}
+                                value={fundamento.rOE}
+                                onChange={setValue}
+                            />
+                        </div>
+                        <div>
+                            <TextField
+                                name='ebitda'
+                                label="Ebitda"
+                                type="number"
+                                sx={InputNumberStyle}
+                                value={fundamento.ebitda}
+                                onChange={setValue}
+                            />
+                            <TextField
+                                name='dvPL'
+                                label="Dv/Pl"
+                                type="number"
+                                sx={InputNumberStyle}
+                                value={fundamento.dvPL}
+                                onChange={setValue}
+                            />
+                            <TextField
+                                name='notaGov'
+                                label="Nota Governança"
+                                type="number"
+                                value={fundamento.notaGov}
+                                onChange={setValue}
+                            />
+                        </div>
                     </div>
                 </DialogContent>
                 <Divider/>

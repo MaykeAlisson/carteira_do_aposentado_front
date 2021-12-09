@@ -1,6 +1,5 @@
 import React, {useContext, useEffect, useState} from "react";
-import {Link} from "react-router-dom";
-import { useNavigate } from 'react-router-dom';
+import {Link, useNavigate} from "react-router-dom";
 
 import Paper from '@mui/material/Paper';
 import Card from '@mui/material/Card';
@@ -13,7 +12,6 @@ import AddIcon from "@mui/icons-material/Add";
 import isEmpty from "Util/isEmpty";
 
 import CadastroFundamento from "./components/CadastroFundamento";
-import { Api } from 'Services/api';
 import AppContext from "Contexts/contexto";
 import LoadingContext from 'Contexts/loading';
 import MessageContext from 'Contexts/message';
@@ -24,17 +22,17 @@ const Componente = () => {
     const {ativoFundamento} = useContext(AppContext);
     const [ativo, setAtivo] = useState({...ativoFundamento});
     const [analise, setAnalise] = useState(isEmpty(ativoFundamento) ? [] : ativoFundamento.analise);
-    const { setLoading } = useContext(LoadingContext);
-    const { msgErro, msgAviso } = useContext(MessageContext);
+    const {setLoading} = useContext(LoadingContext);
+    const {msgErro, msgAviso} = useContext(MessageContext);
     const [newFundamento, setNewFundamento] = useState(false);
 
     useEffect(() => {
         if (isEmpty(ativoFundamento)) navigate('/ativo');
         setAtivo({...ativoFundamento})
     }, [ativoFundamento]);
-    
+
     const onReloadAtivo = (id) => {
-      alert("buscar ativo com id " + id)
+        alert("buscar ativo com id " + id)
     };
 
     return (
@@ -58,22 +56,24 @@ const Componente = () => {
             </Button>
             <section style={SectionStyle}>
                 <Paper elevation={3} sx={DetalhesStyle}>
-                    <section>
-                        <span>Nome: {ativo.nome}</span>
-                        <span>Tipo: {ativo.tipo}</span>
-                        <span>Categoria: {ativo.categoria}</span>
-                        <span>Setor: {ativo.setor}</span>
-                        <span>Criação: {ativo.criacao}</span>
+                    <section style={SectionRowStyle}>
+                        <span style={SpanLabelStyle}>Nome:</span> <span style={SpanValueStyle}> {ativo.nome}</span>
+                        <span style={SpanLabelStyle}>Tipo:</span> <span style={SpanValueStyle}> {ativo.tipo}</span>
+                        <span style={SpanLabelStyle}>Categoria:</span> <span
+                        style={SpanValueStyle}> {ativo.categoria}</span>
+                        <span style={SpanLabelStyle}>Setor:</span> <span style={SpanValueStyle}> {ativo.setor}</span>
+                        <span style={SpanLabelStyle}>Criação:</span> <span
+                        style={SpanValueStyle}> {new Date(ativo.criacao).toLocaleString()}</span>
                     </section>
-                    <section>
-                        <span>Qtd: {ativo.qtd}</span>
-                        <span>Valor: {ativo.valor}</span>
-                        <span>Porcentagem: {ativo.porcentagem}</span>
-                        <span>Setor: {ativo.setor}</span>
-                        <span>Criação: {ativo.criacao}</span>
+                    <section style={SectionRowStyle}>
+                        <span style={SpanLabelStyle}>Qtd:</span> <span style={SpanValueStyle}> {ativo.qtd}</span>
+                        <span style={SpanLabelStyle}>Valor:</span> <span style={SpanValueStyle}> {ativo.valor}</span>
+                        <span style={SpanLabelStyle}>Porcentagem:</span> <span
+                        style={SpanValueStyle}> {ativo.porcentagem}%</span>
                     </section>
-                    <section>
-                        <span>Observação: {ativo.observacao}</span>
+                    <section style={SectionRowStyle}>
+                        <span style={SpanLabelStyle}>Observação:</span> <span
+                        style={SpanValueStyle}> {ativo.observacao}</span>
                     </section>
                 </Paper>
                 <div style={FundamentosStyle}>
@@ -82,30 +82,38 @@ const Componente = () => {
                             <Card key={`cd-${fundamento.mes}`} sx={{maxWidth: 320, marginBottom: 5}}>
                                 <CardContent key={fundamento.mes} sx={FundamentosRowStyle}>
                                     <section key={`s1-${fundamento.mes}`}>
-                                        <Typography key={`${fundamento.mes}-${fundamento.mes}`} sx={{fontSize: 14}} color="text.secondary" gutterBottom>
+                                        <Typography key={`${fundamento.mes}-${fundamento.mes}`} sx={{fontSize: 14}}
+                                                    color="text.secondary" gutterBottom>
                                             Mes: {fundamento.mes}
                                         </Typography>
-                                        <Typography key={`${fundamento.mes}-${fundamento.pL}`} sx={{fontSize: 14}} color="text.secondary" gutterBottom>
+                                        <Typography key={`${fundamento.mes}-${fundamento.pL}`} sx={{fontSize: 14}}
+                                                    color="text.secondary" gutterBottom>
                                             PL: {fundamento.pL}
                                         </Typography>
-                                        <Typography key={`${fundamento.mes}-${fundamento.pVPA}`} sx={{fontSize: 14}} color="text.secondary" gutterBottom>
+                                        <Typography key={`${fundamento.mes}-${fundamento.pVPA}`} sx={{fontSize: 14}}
+                                                    color="text.secondary" gutterBottom>
                                             Pv/Vp: {fundamento.pVPA}
                                         </Typography>
-                                        <Typography key={`${fundamento.mes}-${fundamento.rOE}`} sx={{fontSize: 14}} color="text.secondary" gutterBottom>
+                                        <Typography key={`${fundamento.mes}-${fundamento.rOE}`} sx={{fontSize: 14}}
+                                                    color="text.secondary" gutterBottom>
                                             ROE: {fundamento.rOE}
                                         </Typography>
                                     </section>
                                     <section key={`s2-${fundamento.mes}`}>
-                                        <Typography key={`${fundamento.mes}-${fundamento.dY}`} sx={{fontSize: 14}} color="text.secondary" gutterBottom>
+                                        <Typography key={`${fundamento.mes}-${fundamento.dY}`} sx={{fontSize: 14}}
+                                                    color="text.secondary" gutterBottom>
                                             DY: {fundamento.dY}
                                         </Typography>
-                                        <Typography key={`${fundamento.mes}-${fundamento.ebitda}`} sx={{fontSize: 14}} color="text.secondary" gutterBottom>
+                                        <Typography key={`${fundamento.mes}-${fundamento.ebitda}`} sx={{fontSize: 14}}
+                                                    color="text.secondary" gutterBottom>
                                             Ebitda: {fundamento.ebitda}
                                         </Typography>
-                                        <Typography key={`${fundamento.mes}-${fundamento.dividaBrutaPatrimonioLiquido}`} sx={{fontSize: 14}} color="text.secondary" gutterBottom>
+                                        <Typography key={`${fundamento.mes}-${fundamento.dividaBrutaPatrimonioLiquido}`}
+                                                    sx={{fontSize: 14}} color="text.secondary" gutterBottom>
                                             Dv/Pl: {fundamento.dividaBrutaPatrimonioLiquido}
                                         </Typography>
-                                        <Typography key={`${fundamento.mes}-${fundamento.notaGovernanca}`} sx={{fontSize: 14}} color="text.secondary" gutterBottom>
+                                        <Typography key={`${fundamento.mes}-${fundamento.notaGovernanca}`}
+                                                    sx={{fontSize: 14}} color="text.secondary" gutterBottom>
                                             Nota Gov.: {fundamento.notaGovernanca}
                                         </Typography>
                                     </section>
@@ -123,7 +131,7 @@ const Componente = () => {
                      right: 16,
                  }}
                  onClick={() => {
-                    setNewFundamento(true);
+                     setNewFundamento(true);
                  }}
             >
                 <AddIcon/>
@@ -131,8 +139,12 @@ const Componente = () => {
             <CadastroFundamento
                 idAtivo={ativoFundamento.id}
                 open={newFundamento}
-                onClose={() => {setNewFundamento(false)}}
-                onReload={(id) => {onReloadAtivo(id)}}
+                onClose={() => {
+                    setNewFundamento(false)
+                }}
+                onReload={(id) => {
+                    onReloadAtivo(id)
+                }}
             />
         </>
     )
@@ -142,6 +154,22 @@ const SectionStyle = {
     display: 'flex',
     flexDirection: 'column',
     gap: 20
+};
+
+const SectionRowStyle = {
+    margin: '10px',
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 10
+};
+
+const SpanLabelStyle = {
+    fontFamily: 'FreeMono',
+};
+
+const SpanValueStyle = {
+    fontFamily: 'Comic Sans MS'
 };
 
 const DetalhesStyle = {
