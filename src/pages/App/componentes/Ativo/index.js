@@ -54,7 +54,7 @@ const Componente = () => {
             setAtivos(response)
         }catch (e) {
             console.log(e);
-            msgErro(e)
+            msgErro(e.message)
         }finally {
             setLoading(false);
         }

@@ -48,7 +48,7 @@ const Componente = () => {
             setAtivo({...response})
         } catch (e) {
             console.log(e);
-            msgErro(e);
+            msgErro(e.message);
         } finally {
             setLoading(false);
         }

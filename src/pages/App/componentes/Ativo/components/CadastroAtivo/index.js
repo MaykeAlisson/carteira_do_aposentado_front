@@ -58,7 +58,7 @@ const Componente = ({open, onClose, onReload, update, ativoUpdate}) => {
             filterConstantes(response)
         } catch (e) {
             console.log(e);
-            msgErro(e)
+            msgErro(e.message)
         } finally {
             setLoading(false);
         }
@@ -118,7 +118,7 @@ const Componente = ({open, onClose, onReload, update, ativoUpdate}) => {
             onReload();
         } catch (e) {
             console.log(e);
-            msgErro(e)
+            msgErro(e.message)
         } finally {
             setLoading(false);
         }
@@ -132,7 +132,7 @@ const Componente = ({open, onClose, onReload, update, ativoUpdate}) => {
             onReload();
         } catch (e) {
             console.log(e);
-            msgErro(e)
+            msgErro(e.message)
         } finally {
             setLoading(false);
         }
