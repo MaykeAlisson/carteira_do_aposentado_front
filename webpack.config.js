@@ -46,6 +46,7 @@ module.exports = {
   plugins: [
     new HtmlWebPackPlugin ({
       template: "./src/index.html",
+      favicon: "./public/img/favicon.svg",
       filename: "./index.html"
     }),
     new NodePolyfillPlugin()
