@@ -30,6 +30,10 @@ export const Api = {
             return http.get(urlAtivo);
         },
 
+        findById: (id) => {
+            return http.get(`${urlAtivo}/${id}`);
+        },
+
         constantes: () => {
             return http.get(urlAtivoConstantes);
         },

@@ -11,10 +11,13 @@ import AddIcon from "@mui/icons-material/Add";
 
 import isEmpty from "Util/isEmpty";
 
+import {Api} from 'Services/api';
 import CadastroFundamento from "./components/CadastroFundamento";
 import AppContext from "Contexts/contexto";
 import LoadingContext from 'Contexts/loading';
 import MessageContext from 'Contexts/message';
+
+const ativoService = Api.Ativo;
 
 const Componente = () => {
 
@@ -31,8 +34,24 @@ const Componente = () => {
         setAtivo({...ativoFundamento})
     }, [ativoFundamento]);
 
-    const onReloadAtivo = (id) => {
-        alert("buscar ativo com id " + id)
+    useEffect(() => {
+        setAnalise(ativo.analise);
+    },[ativo])
+
+    const onReloadAtivo = async (id) => {
+        setNewFundamento(false);
+        try {
+            setLoading(true);
+            const response = await ativoService.findById(id);
+            console.log(response)
+            if (isEmpty(response)) return;
+            setAtivo({...response})
+        } catch (e) {
+            console.log(e);
+            msgErro(e);
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
