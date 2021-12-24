@@ -6,6 +6,8 @@ import MenuIcon from '@mui/icons-material/Menu';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
+import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
+import SettingsIcon from '@mui/icons-material/Settings';
 
 import Contexto from 'Contexts/contexto';
 import isEmpty from "Util/isEmpty";
@@ -91,6 +93,32 @@ const Componente = ({onLogoutSuccess}) => {
                             variant="inherit"
                             style={{marginLeft: 12}}
                         >Ativos
+                        </Typography>
+                    </MenuItem>
+                    <MenuItem
+                        onClick={() => {
+                            navigate('/lancamento')
+                            setOpenMenu(false)
+                        }}
+                    >
+                        <CompareArrowsIcon/>
+                        <Typography
+                            variant="inherit"
+                            style={{marginLeft: 12}}>
+                            Lancamento
+                        </Typography>
+                    </MenuItem>
+                    <MenuItem
+                        onClick={() => {
+                            navigate('/carteira')
+                            setOpenMenu(false)
+                        }}
+                    >
+                        <SettingsIcon/>
+                        <Typography
+                            variant="inherit"
+                            style={{marginLeft: 12}}>
+                            Carteira
                         </Typography>
                     </MenuItem>
                 </MenuList>
