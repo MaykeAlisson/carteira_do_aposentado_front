@@ -1,5 +1,6 @@
-import React from "react";
+import React, {useState} from "react";
 import {Checkbox, FormControl, InputLabel, ListItemText, MenuItem, OutlinedInput, Paper, Select} from "@mui/material";
+import PropTypes from "prop-types";
 
 
 const ITEM_HEIGHT = 48;
@@ -26,29 +27,30 @@ const names = [
     'Kelly Snyder',
 ];
 
-const Componente = () => {
+const Componente = ({valores, update}) => {
 
-    const [personName, setPersonName] = React.useState([]);
+    const [selecionados, setSelecionados] = useState([]);
 
     const handleChange = (event) => {
         const {
             target: { value },
         } = event;
-        setPersonName(
+        setSelecionados(
             // On autofill we get a stringified value.
             typeof value === 'string' ? value.split(',') : value,
         );
+        update(typeof value === 'string' ? value.split(',') : value)
     };
 
     return(
-        <Paper>
+        <div>
             <FormControl sx={{ m: 1, width: 300 }}>
-                <InputLabel id="demo-multiple-checkbox-label">Tag</InputLabel>
+                <InputLabel id="demo-multiple-checkbox-label">Tipo</InputLabel>
                 <Select
                     labelId="demo-multiple-checkbox-label"
                     id="demo-multiple-checkbox"
                     multiple
-                    value={personName}
+                    value={selecionados}
                     onChange={handleChange}
                     input={<OutlinedInput label="Tag" />}
                     renderValue={(selected) => selected.join(', ')}
@@ -56,14 +58,24 @@ const Componente = () => {
                 >
                     {names.map((name) => (
                         <MenuItem key={name} value={name}>
-                            <Checkbox checked={personName.indexOf(name) > -1} />
+                            <Checkbox checked={selecionados.indexOf(name) > -1} />
                             <ListItemText primary={name} />
                         </MenuItem>
                     ))}
                 </Select>
             </FormControl>
-        </Paper>
+        </div>
     );
+};
+
+Componente.propType = {
+    valores: [],
+    update: () => {},
+};
+
+Componente.defaultProps = {
+    valores: PropTypes.array,
+    update: PropTypes.func,
 };
 
 export default Componente;
