@@ -22,31 +22,42 @@ const Componente = () => {
     }
 
     return (
-        <Paper>
-            <div style={ContainerStyle}>
-                <div>
-                    <Tipo
-                        // valores={}
-                        update={(value) => tipos.add(value)}
-                    />
-                    <Categoria
-                        // valores={}
-                        update={(value) => categorias.add(value)}
-                    />
+        <div>
+            <Paper>
+                <div style={ContainerStyle}>
+                    <div>
+                        <Tipo
+                            // valores={}
+                            update={(value) => tipos.add(value)}
+                        />
+                        <Categoria
+                            // valores={}
+                            update={(value) => categorias.add(value)}
+                        />
+                    </div>
+                    <div>
+                        <Setor
+                            // valores={}
+                            update={(value) => setores.add(value)}
+                        />
+                        <TipoQtd
+                            // valores={}
+                            update={(value) => tipoQtd.add(value)}
+                        />
+                    </div>
+                    <Button onClick={() => {
+                        inputValores()
+                    }}>Add Valores</Button>
                 </div>
-                <div>
-                    <Setor
-                        // valores={}
-                        update={(value) => setores.add(value)}
-                    />
-                    <TipoQtd
-                        // valores={}
-                        update={(value) => tipoQtd.add(value)}
-                    />
-                </div>
-                <Button onClick={() => {inputValores()}}>Add Valores</Button>
+            </Paper>
+            <div>
+                {
+                    tipos.forEach(value => {
+                        <span>input</span>
+                    })
+                }
             </div>
-        </Paper>
+        </div>
     );
 };
 
