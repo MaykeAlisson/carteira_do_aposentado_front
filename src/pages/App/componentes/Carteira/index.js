@@ -1,12 +1,19 @@
 import React from "react";
 
+import Tipo from "./componentes/Tipo";
+import Categoria from "./componentes/Categoria";
+import Setor from "./componentes/Setor";
+import TipoQtd from "./componentes/TipoQtd";
 
 const Componente = () => {
 
     return(
-        <>
-            <h1>Carteira</h1>
-        </>
+        <div>
+            <Tipo/>
+            <Categoria/>
+            <Setor/>
+            <TipoQtd/>
+        </div>
     );
 };
 
