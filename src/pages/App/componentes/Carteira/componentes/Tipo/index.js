@@ -56,10 +56,10 @@ const Componente = ({valores, update}) => {
                     renderValue={(selected) => selected.join(', ')}
                     MenuProps={MenuProps}
                 >
-                    {names.map((name) => (
-                        <MenuItem key={name} value={name}>
-                            <Checkbox checked={selecionados.indexOf(name) > -1} />
-                            <ListItemText primary={name} />
+                    {valores.map((value) => (
+                        <MenuItem key={value.descricao} value={value.descricao}>
+                            <Checkbox checked={selecionados.indexOf(value.descricao) > -1} />
+                            <ListItemText primary={value.descricao} />
                         </MenuItem>
                     ))}
                 </Select>

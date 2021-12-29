@@ -5,6 +5,7 @@ const urlUsuario = '/api/users/v1/user';
 const urlAtivo = '/api/ativos/v1/ativo';
 const urlAtivoConstantes = '/api/ativos/v1/constantes';
 const urlFundamento = '/api/fundamentos';
+const urlCarteira = '/api/carteira';
 
 export const Api = {
 
@@ -56,6 +57,14 @@ export const Api = {
 
         create: (id, dados) => {
             return http.post(`${urlFundamento}/v1/${id}/fundamento`, dados);
+        },
+
+    },
+
+    Carteira: {
+
+        create: (dados) => {
+            return http.post(`${urlCarteira}/v1/carteira`, dados);
         },
 
     },
