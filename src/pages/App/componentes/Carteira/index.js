@@ -3,7 +3,7 @@ import React, {useContext, useEffect, useState} from "react";
 import Tipo from "./componentes/Tipo";
 import Categoria from "./componentes/Categoria";
 import TipoQtd from "./componentes/TipoQtd";
-import {Fab, InputLabel, Paper, TextField} from "@mui/material";
+import {Button, Divider, Fab, InputLabel, Paper, TextField, Typography} from "@mui/material";
 
 import {Api} from 'Services/api';
 import LoadingContext from 'Contexts/loading';
@@ -18,6 +18,7 @@ const Componente = () => {
 
     const {setLoading} = useContext(LoadingContext);
     const {msgErro, msgAviso, msgSucesso} = useContext(MessageContext);
+    const [edit, setEdit] = useState(false);
     const [tipoValue, setTipoValue] = useState([]);
     const [categoriaValue, setCategoriaValue] = useState([]);
     const [tipos, setTipos] = useState([]);
@@ -26,10 +27,13 @@ const Componente = () => {
     const [tipo, setTipo] = useState({})
     const [categoria, setCategoria] = useState({})
     const [tipoQuantidade, setTipoQuantidade] = useState({})
-    const [configCarteira, setConfigCarteira] = useState({})
+    const [configTipo, setConfigTipo] = useState([])
+    const [configCategoria, setConfigCategoria] = useState([])
+    const [configQtdTipo, setConfigQtdTipo] = useState([])
 
     useEffect(() => {
         buscarConstantes();
+        buscarCarteira();
     }, []);
 
     const clean = () => {
@@ -40,6 +44,24 @@ const Componente = () => {
         setCategoria({});
         setTipoQuantidade({});
     }
+
+    const buscarCarteira = async () => {
+        try {
+            setLoading(true);
+            const response = await carteiraService.buscar();
+            if (!isEmpty(response)) {
+                setConfigCategoria(response.porcentagemCategoria);
+                setConfigTipo(response.porcentagemTipo);
+                setConfigQtdTipo(response.tipoQtds);
+            }
+        } catch (e) {
+            console.log(e);
+            msgErro(e.message)
+        } finally {
+            setLoading(false);
+        }
+    }
+
     const buscarConstantes = async () => {
         try {
             setLoading(true);
@@ -92,6 +114,7 @@ const Componente = () => {
             await carteiraService.create(carteira)
             clean();
             msgSucesso("Configurações salva");
+            buscarCarteira();
         } catch (e) {
             console.log(e);
             msgErro(e.message)
@@ -153,7 +176,62 @@ const Componente = () => {
 
     return (
         <div>
-            <Paper>
+            <Button
+                disabled={edit}
+                onClick={() => {
+                    setEdit(true)
+                }}
+                variant="contained"
+                color={"primary"}
+            >
+                Editar
+            </Button>
+            <Paper style={{display: edit ? 'none' : ''}}>
+                <div style={{marginLeft: 10, display: 'flex', flexDirection: 'column'}}>
+                    <div style={{marginLeft: 10, marginTop: 10}}>
+                        <Typography variant="h6" gutterBottom component="div" >Porcentagem Tipo</Typography>
+                        <div style={{display: 'flex', flexDirection: 'column', gap: 5}}>
+                        {
+                            configTipo.map(value => (
+                                <div style={{display: 'flex', flexDirection: 'row', gap: 10}}>
+                                    <Typography variant="button" display="block">{value.tipo}</Typography>
+                                    <Typography variant="button" display="block">{value.porcentagem}</Typography>
+                                </div>
+                            ))
+                        }
+                        </div>
+                    </div>
+                    <Divider/>
+                    <div style={{marginLeft: 10, marginTop: 10}}>
+                        <Typography variant="h6" gutterBottom component="div">Porcentagem Categoria</Typography>
+                        <div style={{display: 'flex', flexDirection: 'column', gap: 5}}>
+                        {
+                            configCategoria.map(value => (
+                                <div style={{display: 'flex', flexDirection: 'row', gap: 10}}>
+                                    <Typography variant="button" display="block">{value.categoria}</Typography>
+                                    <Typography variant="button" display="block">{value.porcentagem}</Typography>
+                                </div>
+                            ))
+                        }
+                        </div>
+                    </div>
+                    <Divider/>
+                    <div style={{marginLeft: 10, marginTop: 10}}>
+                        <Typography variant="h6" gutterBottom component="div">Quantidade Tipo</Typography>
+                        <div style={{display: 'flex', flexDirection: 'column', gap: 5}}>
+                        {
+                            configQtdTipo.map(value => (
+                                <div style={{display: 'flex', flexDirection: 'row', gap: 10}}>
+                                    <Typography variant="button" display="block">{value.tipo}</Typography>
+                                    <Typography variant="button" display="block">{value.qtd}</Typography>
+                                </div>
+                            ))
+                        }
+                        </div>
+                    </div>
+                </div>
+            </Paper>
+            <Paper style={{display: edit ? '' : 'none'}}>
                 <div style={ContainerStyle}>
                     <Tipo
                         valores={tipoValue}
@@ -222,6 +300,7 @@ const Componente = () => {
             </div>
             <Fab color="primary"
                  aria-label="add"
+                 style={{display: edit ? '' : 'none'}}
                  sx={{
                      position: 'fixed',
                      bottom: 16,
@@ -229,6 +308,7 @@ const Componente = () => {
                  }}
                  onClick={() => {
                      save();
+                     setEdit(false);
                  }}
             >
                 <AddIcon/>

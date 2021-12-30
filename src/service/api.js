@@ -67,6 +67,9 @@ export const Api = {
             return http.post(`${urlCarteira}/v1/carteira`, dados);
         },
 
+        buscar: () => {
+            return http.get(`${urlCarteira}/v1/carteira`);
+        },
     },
 
 };
