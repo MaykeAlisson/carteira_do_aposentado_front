@@ -6,6 +6,7 @@ const urlAtivo = '/api/ativos/v1/ativo';
 const urlAtivoConstantes = '/api/ativos/v1/constantes';
 const urlFundamento = '/api/fundamentos';
 const urlCarteira = '/api/carteira';
+const urlLancamento = '/api/lancamento';
 
 export const Api = {
 
@@ -69,6 +70,17 @@ export const Api = {
 
         buscar: () => {
             return http.get(`${urlCarteira}/v1/carteira`);
+        },
+    },
+
+    Lancamento: {
+
+        create: (dados) => {
+            return http.post(`${urlLancamento}/v1/lancamento`, dados);
+        },
+
+        buscar: () => {
+            return http.get(`${urlLancamento}/v1/lancamento`);
         },
     },
 

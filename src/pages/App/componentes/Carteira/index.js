@@ -4,12 +4,12 @@ import Tipo from "./componentes/Tipo";
 import Categoria from "./componentes/Categoria";
 import TipoQtd from "./componentes/TipoQtd";
 import {Button, Divider, Fab, InputLabel, Paper, TextField, Typography} from "@mui/material";
+import SaveIcon from '@mui/icons-material/Save';
 
 import {Api} from 'Services/api';
 import LoadingContext from 'Contexts/loading';
 import MessageContext from 'Contexts/message';
 import isEmpty from "Util/isEmpty";
-import AddIcon from "@mui/icons-material/Add";
 
 const ativoService = Api.Ativo;
 const carteiraService = Api.Carteira;
@@ -193,9 +193,9 @@ const Componente = () => {
                         <div style={{display: 'flex', flexDirection: 'column', gap: 5}}>
                         {
                             configTipo.map(value => (
-                                <div style={{display: 'flex', flexDirection: 'row', gap: 10}}>
-                                    <Typography variant="button" display="block">{value.tipo}</Typography>
-                                    <Typography variant="button" display="block">{value.porcentagem}</Typography>
+                                <div key={`div_tipo${value.tipo}`} style={{display: 'flex', flexDirection: 'row', gap: 10}}>
+                                    <Typography key={`tipo${value.tipo}`} variant="button" display="block">{value.tipo}</Typography>
+                                    <Typography key={`tipo${value.porcentagem}`} variant="button" display="block">{value.porcentagem}</Typography>
                                 </div>
                             ))
                         }
@@ -207,9 +207,9 @@ const Componente = () => {
                         <div style={{display: 'flex', flexDirection: 'column', gap: 5}}>
                         {
                             configCategoria.map(value => (
-                                <div style={{display: 'flex', flexDirection: 'row', gap: 10}}>
-                                    <Typography variant="button" display="block">{value.categoria}</Typography>
-                                    <Typography variant="button" display="block">{value.porcentagem}</Typography>
+                                <div key={`div_categoria${value.categoria}`} style={{display: 'flex', flexDirection: 'row', gap: 10}}>
+                                    <Typography key={`categoria${value.categoria}`} variant="button" display="block">{value.categoria}</Typography>
+                                    <Typography key={`categoria${value.porcentagem}`} variant="button" display="block">{value.porcentagem}</Typography>
                                 </div>
                             ))
                         }
@@ -221,9 +221,9 @@ const Componente = () => {
                         <div style={{display: 'flex', flexDirection: 'column', gap: 5}}>
                         {
                             configQtdTipo.map(value => (
-                                <div style={{display: 'flex', flexDirection: 'row', gap: 10}}>
-                                    <Typography variant="button" display="block">{value.tipo}</Typography>
-                                    <Typography variant="button" display="block">{value.qtd}</Typography>
+                                <div key={`div_qtd${value.tipo}`} style={{display: 'flex', flexDirection: 'row', gap: 10}}>
+                                    <Typography key={`qtd${value.tipo}`} variant="button" display="block">{value.tipo}</Typography>
+                                    <Typography key={`qtd${value.qtd}`} variant="button" display="block">{value.qtd}</Typography>
                                 </div>
                             ))
                         }
@@ -311,7 +311,7 @@ const Componente = () => {
                      setEdit(false);
                  }}
             >
-                <AddIcon/>
+                <SaveIcon/>
             </Fab>
         </div>
     );
